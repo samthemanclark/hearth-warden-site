@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Overview � HearthWarden</title>
+<link rel="icon" type="image/png" href="../website-assets/logo-40.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+  :root { --dark-base: #1B1711; --bark-brown: #6C5C3C; --amber-gold: #AE8647; --forest-green: #3B4326; --sage-green: #899467; --stone-gray: #3A3631; --cream: #CDC693; --light-cream: #F5F0E6; --emerald: #72AC63; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--stone-gray); background: var(--light-cream); line-height: 1.7; }
+  .doc-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+  .doc-header { background: var(--forest-green); color: var(--cream); padding: 2rem; text-align: center; border-bottom: 3px solid var(--amber-gold); }
+  .doc-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; }
+  .doc-header a { color: var(--amber-gold); text-decoration: none; }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 800; margin: 2rem 0 0.5rem; color: var(--stone-gray); }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; border-bottom: 2px solid var(--amber-gold); padding-bottom: 0.3rem; }
+  h3 { font-size: 1.2rem; color: var(--bark-brown); }
+  p { margin: 0.5rem 0; }
+  em { font-style: italic; color: var(--bark-brown); }
+  strong { font-weight: 700; }
+  hr { border: none; height: 2px; background: var(--amber-gold); margin: 2rem 0; opacity: 0.3; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  th { background: var(--forest-green); color: var(--cream); padding: 0.6rem; text-align: left; font-weight: 600; }
+  td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(108,92,60,0.15); }
+  tr:hover td { background: rgba(174,134,71,0.05); }
+  a { color: var(--amber-gold); }
+  .back-link { display: inline-block; margin: 1rem 0; color: var(--amber-gold); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="doc-header">
+  <a href="../">HearthWarden</a>
+  <h1>Technical Overview</h1>
+</div>
+<div class="doc-container">
+  <a href="../" class="back-link">&larr; Back to hearth-warden.com</a>
+  <h1>Thornhaven — Technical Overview</h1>
+
+<em>For investors, partners, and technical reviewers.</em>
+
+<table>
+<tr><th>sam@hearth-warden.com</th></tr>
+</table>
+
+<hr>
+
+<h2>Architecture Summary</h2>
+
+<p>Thornhaven is a <strong>federated multiplayer AI system</strong> where each household runs its own AI assistant locally, while a lightweight shared server coordinates a persistent game world with 227+ AI characters.</p>
+
+<h3>Key Technical Decisions</h3>
+
+<p>- <strong>Federated AI processing</strong> — Each household's Claude instance processes its own Familiars' actions. The server coordinates but doesn't run the heavy AI workload. This distributes token costs across users and keeps personal data local.</p>
+<p>- <strong>Two-backend design</strong> — The mobile app talks to both the shared game server (for multiplayer) and the household's local agent (for personal assistant features). Data sovereignty is architectural, not policy.</p>
+<p>- <strong>Real-time physical simulation</strong> — Characters have measured travel speeds, locations have real distances, and a path graph with Dijkstra routing prevents teleportation. Movement modes (walk, fly, burrow, climb) create strategic gameplay.</p>
+<p>- <strong>Progressive information disclosure</strong> — Character profiles fill in through interaction, not bulk data dump. Trust scores gate deeper information. This creates organic relationship-building.</p>
+<p>- <strong>Engagement-powered progression</strong> — Real-world assistant usage (budget tracking, meal planning, health logging) directly increases AI Familiar power in the game world. This creates a self-reinforcing engagement loop.</p>
+
+<h3>Stack</h3>
+
+<table>
+<tr><th>Layer</th><th>Technology</th></tr>
+<tr><td>Mobile app</td><td>React Native + Expo (iOS + Android from one codebase)</td></tr>
+<tr><td>Server</td><td>FastAPI (Python) + PostgreSQL</td></tr>
+<tr><td>Real-time</td><td>WebSocket for live events</td></tr>
+<tr><td>AI</td><td>Claude API (Anthropic) — Haiku for safety, Sonnet for NPCs, Opus for complex reasoning</td></tr>
+<tr><td>Auth</td><td>JWT with role-based claims (owner/adult/teen/child)</td></tr>
+<tr><td>Deployment</td><td>Docker + Caddy (TLS)</td></tr>
+</table>
+
+<h3>Scale</h3>
+
+<table>
+<tr><th>Metric</th><th>Current</th></tr>
+<tr><td>Database tables</td><td>22</td></tr>
+<tr><td>REST endpoints</td><td>30+</td></tr>
+<tr><td>Server source files</td><td>22 (4,341 lines Python)</td></tr>
+<tr><td>Client source files</td><td>19 (React Native TypeScript)</td></tr>
+<tr><td>Design documents</td><td>9</td></tr>
+<tr><td>NPC characters seeded</td><td>6 key + 221 planned</td></tr>
+<tr><td>Town locations</td><td>22 with measured distances</td></tr>
+<tr><td>Story arcs</td><td>3 (Season 1)</td></tr>
+</table>
+
+<h3>Cost Structure (Per User/Month)</h3>
+
+<table>
+<tr><th>Tier</th><th>Revenue</th><th>Server Cost</th><th>Margin</th></tr>
+<tr><td>Hosted ($50)</td><td>$50</td><td>$15-30</td><td>40-70%</td></tr>
+<tr><td>Connected ($35)</td><td>$35</td><td>$1-2</td><td>94-97%</td></tr>
+<tr><td>Self-Hosted ($30)</td><td>$30</td><td>$0.50</td><td>98%</td></tr>
+</table>
+
+<p>The federated model means margin <em>improves</em> as more users choose the Connected tier, because their own Claude handles the processing.</p>
+
+<hr>
+
+<h2>What's Proprietary</h2>
+
+<p>The following are not disclosed in this overview:</p>
+<p>- Pulse directive/response JSON schemas</p>
+<p>- NPC personality generation algorithms</p>
+<p>- Story arc trigger conditions and branching logic</p>
+<p>- Content safety detection patterns</p>
+<p>- Memory isolation implementation details</p>
+<p>- Power progression calculation formulas</p>
+
+<p>For full technical access, contact <strong>sam@hearth-warden.com</strong>.</p>
+
+<hr>
+
+<h2>COPPA & Safety Compliance</h2>
+
+<p>- Child accounts (under 13) require verifiable parental consent</p>
+<p>- Four-role system (owner/adult/teen/child) with content filtering per tier</p>
+<p>- Three-layer content safety: client-side regex, server-side rules, AI classification</p>
+<p>- Predatory behavior pattern detection</p>
+<p>- All child interactions logged and parent-reviewable</p>
+<p>- No email collection from children</p>
+<p>- No in-app purchases (payment via website only)</p>
+
+<hr>
+
+<em>Warden Systems LLC — Clark County, WA</em>
+<em>sam@hearth-warden.com</em>
+
+  <hr>
+  <p style="text-align: center; color: var(--bark-brown); margin: 2rem 0;">
+    <strong>Warden Systems LLC</strong> &mdash; Clark County, WA<br>
+    <a href="mailto:sam@hearth-warden.com">sam@hearth-warden.com</a> &mdash; <a href="../">hearth-warden.com</a>
+  </p>
+</div>
+</body>
+</html>
