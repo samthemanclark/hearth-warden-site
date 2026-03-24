@@ -15,7 +15,6 @@
   .doc-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; }
   .doc-header a { color: var(--amber-gold); text-decoration: none; }
   h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 800; margin: 2rem 0 0.5rem; color: var(--stone-gray); }
-  h1 { font-size: 2rem; }
   h2 { font-size: 1.5rem; border-bottom: 2px solid var(--amber-gold); padding-bottom: 0.3rem; }
   h3 { font-size: 1.2rem; color: var(--bark-brown); }
   p { margin: 0.5rem 0; }
@@ -23,12 +22,14 @@
   strong { font-weight: 700; }
   hr { border: none; height: 2px; background: var(--amber-gold); margin: 2rem 0; opacity: 0.3; }
   table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
-  th { background: var(--forest-green); color: var(--cream); padding: 0.6rem; text-align: left; font-weight: 600; }
+  th { background: var(--forest-green); color: var(--cream); padding: 0.6rem; text-align: left; }
   td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(108,92,60,0.15); }
   tr:hover td { background: rgba(174,134,71,0.05); }
   a { color: var(--amber-gold); }
   blockquote { background: var(--forest-green); color: var(--cream); padding: 1rem 1.5rem; border-left: 4px solid var(--amber-gold); border-radius: 0 8px 8px 0; margin: 1rem 0; font-style: italic; }
   .back-link { display: inline-block; margin: 1rem 0; color: var(--amber-gold); text-decoration: none; font-weight: 600; }
+  ul { margin: 0.5rem 0 0.5rem 1.5rem; }
+  li { margin: 0.3rem 0; }
 </style>
 </head>
 <body>
@@ -120,125 +121,123 @@
 
 <hr>
 
-<h3>Phase 2: The Familiar Interviews (20-30 minutes — app)</h3>
+<h3>Phase 2: The Familiar Conversations (as long as you want — app)</h3>
 
-<strong>This is the core innovation.</strong> Each Familiar interviews the user about their domain. The interviews happen in the chat interface — the same UI they'll use every day. It feels like talking to the Familiar, not filling out a form.
+<strong>This is the core innovation.</strong> Each Familiar opens a conversation about their domain. Not a questionnaire — a conversation. They start with a few natural questions to understand the basics, and then they follow wherever you lead.
 
-<p>The order is deliberate: start with the easiest, most fun domain and build toward the more personal ones.</p>
+<p>Want to give your kitchen Familiar a quick "I eat whatever's easy" and move on? That's fine — they'll learn more over time. Want to spend 30 minutes walking them through your entire dietary philosophy, your relationship with food, your grandmother's recipe collection, and the fact that you're training for a marathon and need a nutrition plan? They'll go as deep as you want to go. <strong>Every domain can be a light touch or a deep dive. The AI follows your lead.</strong></p>
 
-<p>#### Interview 1: Kitchen Familiar (5-7 minutes)</p>
+<p>The conversations happen in the chat interface — the same UI you'll use every day. Nothing feels like setup. It feels like getting to know someone who genuinely cares about your answers.</p>
 
-<p>The kitchen Familiar leads the first interview because food is universal, non-threatening, and fun.</p>
+<p>The order is deliberate: start with the most fun, least personal domain and build toward deeper topics as trust develops.</p>
 
-<strong>What they ask (in character):</strong>
-<p>- "How many people eat at your house? Anyone have dietary restrictions I should know about?"</p>
-<p>- "What's your cooking vibe — love it, tolerate it, or does the microwave do most of the work?"</p>
-<p>- "Any foods you absolutely hate? I won't judge. Okay, I'll judge a little."</p>
-<p>- "What are your go-to meals when you're too tired to think?"</p>
-<p>- "Where do you usually shop for groceries? Multiple stores or one stop?"</p>
-<p>- "Do you meal plan now, or is every dinner a surprise?"</p>
-<p>- "Any favorite cuisines? Comfort foods? Guilty pleasures?"</p>
-<p>- "Budget for groceries per week — rough is fine."</p>
+<p>#### Conversation 1: Kitchen Familiar</p>
 
-<strong>What this populates:</strong>
-<p>- Dietary preferences, restrictions, allergies</p>
-<p>- Household size (for meals)</p>
-<p>- Cooking skill/interest level</p>
-<p>- Grocery stores and shopping habits</p>
-<p>- Meal planning baseline</p>
-<p>- Food budget</p>
+<p>The kitchen Familiar goes first because food is universal and fun. Low stakes, high engagement.</p>
 
-<strong>Tone:</strong> Warm, playful, food-obsessed. If the user picked a bear, the bear asks about honey preferences. If they picked an enchanted stove, it talks about preferred burner temperatures. Always in character.
+<strong>They start with the basics:</strong>
+<p>- How many people eat at your house? Any dietary needs?</p>
+<p>- What's your relationship with cooking — love it or survival mode?</p>
+<p>- Where do you shop?</p>
 
-<p>#### Interview 2: Grounds Familiar (5-7 minutes)</p>
+<strong>But they can go as deep as you want:</strong>
+<p>- Full dietary planning with macros, calorie targets, and nutritional analysis</p>
+<p>- Synchronized meal planning that accounts for your schedule, your budget, and what's already in your pantry</p>
+<p>- Grocery optimization across multiple stores with price tracking</p>
+<p>- Recipe libraries built around your preferences that evolve as your tastes change</p>
+<p>- Meal prep strategies for the week, batch cooking plans, freezer inventory</p>
+<p>- Integration with health goals — if you're tracking weight or training for something, your kitchen Familiar adjusts the meal plans automatically</p>
+<p>- Food allergy management for the whole household, cross-contamination awareness</p>
+<p>- Seasonal eating plans that rotate with what's fresh and local</p>
 
-<strong>What they ask:</strong>
-<p>- "Tell me about your yard. Big? Small? Nonexistent? Apartment balcony?"</p>
-<p>- "Any plants inside? Houseplants, herbs, anything green?"</p>
-<p>- "Do you have a garden or want one?"</p>
-<p>- "Any pets? Tell me everything — names, species, quirks, vet schedules."</p>
-<p>- "What's the outdoor situation — lawn to mow? Trees? Irrigation?"</p>
-<p>- "Any seasonal tasks you always forget about? Gutters? Winterizing?"</p>
-<p>- "How's the weather where you are most of the year?"</p>
+<strong>The point:</strong> You might start with "I eat a lot of chicken and rice" and a year later your kitchen Familiar knows every spice in your cabinet, tracks your pantry in real time, and adjusts your meal plan when your archive Familiar logs that you bought a new cookbook.
 
-<strong>What this populates:</strong>
-<p>- Yard/outdoor profile</p>
-<p>- Plant inventory (houseplants, garden)</p>
-<p>- Pet profiles (names, species, care needs, vet info)</p>
-<p>- Seasonal maintenance calendar</p>
-<p>- Weather/climate baseline</p>
+<p>#### Conversation 2: Grounds Familiar</p>
 
-<strong>Tone:</strong> Gentle, patient, notices small things. The hedgehog asks about root systems. The enchanted watering can asks about sun exposure. Always in character.
+<strong>They start with the basics:</strong>
+<p>- Tell me about your space — yard, garden, balcony, nothing?</p>
+<p>- Any plants? Any pets?</p>
 
-<p>#### Interview 3: Archive Familiar (5-7 minutes)</p>
+<strong>But they can go as deep as you want:</strong>
+<p>- Full plant care management: watering schedules, seasonal pruning, fertilization, repotting reminders</p>
+<p>- Garden planning: what to plant when, companion planting, harvest calendars, seed ordering</p>
+<p>- Lawn and yard maintenance: mowing schedule, aeration, overseeding, irrigation system management</p>
+<p>- Pet care coordination: vet appointments, medication schedules, food ordering, vaccination records, behavioral notes</p>
+<p>- Multiple pet households: feeding schedules, compatibility, training tracking</p>
+<p>- Home maintenance calendar: gutters, HVAC filters, chimney sweeping, roof inspections, pest control</p>
+<p>- Weather integration: frost warnings that trigger plant protection alerts, storm prep checklists</p>
+<p>- Outdoor project tracking: fence repairs, deck staining, landscaping projects with timelines and budgets</p>
 
-<strong>What they ask:</strong>
-<p>- "What do you collect? Books? Records? Movies? Board games? Cards? Anything?"</p>
-<p>- "How organized are your collections? Scale of 1 to chaos."</p>
-<p>- "Do you track what you own? Or do you buy duplicates sometimes?"</p>
-<p>- "Any important documents you want me to keep track of — insurance, warranties, that kind of thing?"</p>
-<p>- "What are you reading/watching/playing right now?"</p>
-<p>- "Do you have a filing system or is the system 'a pile'?"</p>
-<p>- "Any media subscriptions I should know about?"</p>
+<strong>The point:</strong> You might start with "I have two cats and a dying fern" and eventually your grounds Familiar is managing a full garden calendar, tracking both cats' vet records, and reminding you about the furnace filter before winter.
 
-<strong>What this populates:</strong>
-<p>- Collections inventory (categories, rough sizes)</p>
-<p>- Media habits and subscriptions</p>
-<p>- Document management preferences</p>
-<p>- Current reading/watching/playing</p>
-<p>- Organization level baseline</p>
+<p>#### Conversation 3: Archive Familiar</p>
 
-<strong>Tone:</strong> Precise, slightly enthusiastic about catalogs, remembers everything the user says. The owl adjusts spectacles. The spider starts weaving connections. Always in character.
+<strong>They start with the basics:</strong>
+<p>- What do you collect or track? Books, movies, games, anything?</p>
+<p>- How organized are you?</p>
 
-<p>#### Interview 4: Daily Driver Familiar (7-10 minutes)</p>
+<strong>But they can go as deep as you want:</strong>
+<p>- Complete collection inventory: every book, record, game, card, collectible — cataloged, valued, and tracked</p>
+<p>- Reading/watching/playing logs with reviews, ratings, and recommendations</p>
+<p>- Document management: insurance policies, warranties, tax documents, legal papers — all tracked with expiration dates and renewal reminders</p>
+<p>- Subscription audit: every recurring charge, when it renews, what it costs, whether you're actually using it</p>
+<p>- Media consumption tracking: what you've read this year, your reading pace, genre breakdowns</p>
+<p>- Collection valuation: market value estimates, insurance documentation, rare item tracking</p>
+<p>- Digital asset management: photos, cloud storage, password management awareness</p>
+<p>- Family records: medical records, school documents, important dates, genealogy</p>
 
-<p>This is the most substantive interview. It comes last because by now the user is comfortable with the conversation format and trusts the Familiars.</p>
+<strong>The point:</strong> You might start with "I have some books" and eventually your archive Familiar knows every book you own, has identified three first editions worth insuring, tracks every subscription you pay for, and reminds you when your car registration is due.
 
-<strong>What they ask:</strong>
-<p>- "Walk me through a normal day. What time do you wake up? What's the first thing you do?"</p>
-<p>- "What does your work situation look like — office, remote, hybrid, shift work?"</p>
-<p>- "What's on your calendar this week? Any recurring appointments I should know about?"</p>
-<p>- "How do you want your morning briefing? Quick bullet points or a full download?"</p>
-<p>- "Let's talk money — not details yet, just vibes. Are you comfortable, tight, building, or digging out?"</p>
-<p>- "Any bills that stress you out? Things you forget to pay?"</p>
-<p>- "Do you use a budget now? Want to?"</p>
-<p>- "What are your big goals right now? Financial, personal, health, anything."</p>
-<p>- "How's your email situation — under control or drowning?"</p>
-<p>- "What's the one thing that would make your day-to-day easier if someone just handled it?"</p>
+<p>#### Conversation 4: Daily Driver Familiar</p>
 
-<strong>What this populates:</strong>
-<p>- Daily routine / schedule</p>
-<p>- Work situation</p>
-<p>- Calendar integration needs</p>
-<p>- Briefing preferences</p>
-<p>- Financial overview (high-level)</p>
-<p>- Bill awareness</p>
-<p>- Budget baseline</p>
-<p>- Goals</p>
-<p>- Email management needs</p>
-<p>- Priority pain point</p>
+<p>This one comes last because it touches the most personal topics. By now you're comfortable with the conversational format and trust your Familiars.</p>
 
-<strong>Tone:</strong> Sharp, efficient, but caring. The cat asks with dry wit. The raven asks in riddles that are actually insightful. The clockwork assistant is precisely empathetic. Always in character.
+<strong>They start with the basics:</strong>
+<p>- Walk me through your day.</p>
+<p>- How do you want your morning briefing?</p>
+<p>- What's the one thing that would make your life easier?</p>
 
-<p>#### Interview 5: Hearth Warden Wrap-Up (3-5 minutes)</p>
+<strong>But they can go as deep as you want:</strong>
+<p>- Full financial management: income tracking, bill calendar, due date alerts, spending categorization, budget vs. actual, debt paydown strategies, savings goals</p>
+<p>- Real-time budget synchronization: connect your accounts and your daily driver watches spending against budget in real time, alerting you before you overspend</p>
+<p>- Calendar mastery: not just reading your calendar but understanding your patterns, flagging conflicts, protecting your focus time, scheduling around your energy levels</p>
+<p>- Email triage: prioritizing inbox, surfacing what matters, drafting replies, unsubscribing from noise</p>
+<p>- Goal tracking across every domain: financial targets, health milestones, personal projects, family goals — all monitored with progress updates in your morning briefing</p>
+<p>- Health integration: weight tracking, fitness goals, workout logging, nutrition correlation with energy levels, sleep pattern awareness</p>
+<p>- Debt strategy: snowball vs. avalanche analysis, interest rate optimization, payoff timelines with celebration milestones</p>
+<p>- Investment awareness: retirement contributions, savings rate, net worth tracking over time</p>
+<p>- Life admin: car registration, license renewals, insurance reviews, tax prep reminders, annual doctor appointments</p>
 
-<p>The Hearth Warden closes the interview phase. This is more formal and sets up security.</p>
+<strong>The point:</strong> You might start with "I forget to pay bills sometimes" and eventually your daily driver is running a complete financial dashboard, tracking your net worth month over month, coordinating your health goals with your meal plans, and delivering a morning briefing that tells you exactly what needs your attention today — and what doesn't.
 
-<strong>What they ask:</strong>
-<p>- "Who else lives in this household? Names, ages, and whether they'll be using HearthWarden."</p>
-<p>- "For the members who'll join — any children? I'll set up appropriate protections."</p>
-<p>- "I need a security phrase — something only you would say. This protects your private data."</p>
-<p>- "What's the one thing you most want HearthWarden to handle for you?"</p>
-<p>- "I will protect this home. Is there anything else I should know?"</p>
+<p>#### Conversation 5: Hearth Warden Wrap-Up</p>
 
-<strong>What this populates:</strong>
-<p>- Household member profiles (for family accounts)</p>
-<p>- Parental control needs</p>
-<p>- Security challenge question/answer</p>
-<p>- Priority focus area</p>
-<p>- Any special circumstances</p>
+<p>The Hearth Warden closes the onboarding. This is more formal — it's security and household structure.</p>
 
-<strong>Tone:</strong> Formal, protective, few words. Every question carries weight. The Hearth Warden doesn't chat. It establishes trust through gravity.
+<p>- Who else lives here? Names, ages, roles.</p>
+<p>- Any children who'll need age-appropriate access?</p>
+<p>- A security phrase to protect your private data.</p>
+<p>- What matters most to you right now?</p>
+
+<p>The Hearth Warden doesn't go deep in the same way. It goes <strong>wide</strong> — it's the one who sees across all domains. If your kitchen Familiar knows your meals and your daily driver knows your budget, the Hearth Warden knows that you're spending 40% of your food budget on takeout and your kitchen Familiar could help with that. It's the cross-domain intelligence layer.</p>
+
+<hr>
+
+<h3>The Depth Principle</h3>
+
+<strong>HearthWarden matches your depth.</strong> Every single domain — food, finances, health, collections, maintenance, scheduling — can be:
+
+<table>
+<tr><th>Level</th><th>What It Looks Like</th></tr>
+<tr><td><strong>Light touch</strong></td><td>"I eat whatever. I have some books. My yard exists." Your Familiars work with what they have and learn more over time through casual conversation.</td></tr>
+<tr><td><strong>Moderate</strong></td><td>"Here's my budget. Here's my meal preferences. Here's my plant collection." Your Familiars build structured tracking and give you weekly updates.</td></tr>
+<tr><td><strong>Deep dive</strong></td><td>"I want to track every dollar, plan every meal, catalog every book, monitor every plant, and optimize my entire schedule." Your Familiars become a full-spectrum management system with real-time synchronization, dashboards, alerts, and proactive recommendations.</td></tr>
+<tr><td><strong>Evolving</strong></td><td>You start light and go deeper over time. Your daily driver starts with bill reminders and a year later is running your complete financial life. The depth grows with trust.</td></tr>
+</table>
+
+<strong>No domain is locked at a single depth.</strong> You can have a deep-dive budget system and a light-touch garden. You can go deep on health tracking but casual about collections. Each Familiar adapts independently to how much you engage with them.
+
+<p>And because the Familiars talk to each other through the Hearth Warden, the deep domains inform the light ones. Your detailed budget awareness helps your kitchen Familiar plan cheaper meals. Your health tracking informs your daily driver's morning briefing. <strong>The system gets smarter across the board, even in areas where you're only lightly engaged.</strong></p>
 
 <hr>
 
@@ -392,7 +391,7 @@
   <hr>
   <p style="text-align: center; color: var(--bark-brown); margin: 2rem 0;">
     <strong>Warden Systems LLC</strong> &mdash; Clark County, WA<br>
-    <a href="mailto:sam@hearth-warden.com">sam@hearth-warden.com</a> &mdash; <a href="../">hearth-warden.com</a>
+    <a href="mailto:sam@hearth-warden.com">sam@hearth-warden.com</a>
   </p>
 </div>
 </body>
