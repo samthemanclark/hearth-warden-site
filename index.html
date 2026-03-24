@@ -1,1719 +1,1059 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HearthWarden — Your Home. Your Data. Your Guardian.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* CSS Custom Properties - Brand Palette */
-        :root {
-            --dark-base: #1B1711;
-            --bark-brown: #6C5C3C;
-            --amber-gold: #AE8647;
-            --forest-green: #3B4326;
-            --sage-green: #899467;
-            --stone-gray: #3A3631;
-            --cream: #CDC693;
-            --light-cream: #FAF3E8;
-            --emerald: #72AC63;
-
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'DM Sans', sans-serif;
-
-            --transition-smooth: 0.3s ease-in-out;
-            --transition-slow: 0.6s ease-in-out;
-        }
-
-        /* Reset & Base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-sans);
-            color: var(--stone-gray);
-            background-color: var(--dark-base);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Respect prefers-reduced-motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-serif);
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-        }
-
-        h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-        }
-
-        h3 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-        }
-
-        p {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.875rem 2rem;
-            font-family: var(--font-sans);
-            font-weight: 600;
-            font-size: 1rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all var(--transition-smooth);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background-color: var(--amber-gold);
-            color: var(--dark-base);
-            box-shadow: 0 0 20px rgba(174, 134, 71, 0.3);
-        }
-
-        .btn-primary:hover {
-            background-color: #c9985a;
-            box-shadow: 0 0 30px rgba(174, 134, 71, 0.6);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: var(--forest-green);
-            color: var(--cream);
-            border: 2px solid var(--amber-gold);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--bark-brown);
-            transform: translateY(-2px);
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: transparent;
-            transition: background-color var(--transition-smooth);
-        }
-
-        nav.scrolled {
-            background-color: var(--forest-green);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            transition: opacity var(--transition-smooth);
-        }
-
-        .nav-logo:hover {
-            opacity: 0.8;
-        }
-
-        .nav-logo-text {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--cream);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--cream);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color var(--transition-smooth);
-            cursor: pointer;
-        }
-
-        .nav-links a:hover {
-            color: var(--amber-gold);
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 0.35rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .hamburger span {
-            width: 24px;
-            height: 3px;
-            background-color: var(--cream);
-            border-radius: 2px;
-            transition: all var(--transition-smooth);
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translateY(10px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translateY(-10px);
-        }
-
-        /* Animations */
-        @keyframes float-up {
-            0% {
-                transform: translateY(0) translateX(-50%);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(-50%);
-                opacity: 0;
-            }
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% {
-                filter: drop-shadow(0 0 10px rgba(174, 134, 71, 0.4));
-            }
-            50% {
-                filter: drop-shadow(0 0 20px rgba(174, 134, 71, 0.8));
-            }
-        }
-
-        @keyframes slide-in-left {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slide-in-right {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes chevron-bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-
-        @keyframes draw-line {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-
-        /* Sections */
-        section {
-            padding: 5rem 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-heading {
-            color: var(--cream);
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .section-heading.light {
-            color: var(--stone-gray);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            background: linear-gradient(135deg, var(--dark-base) 0%, var(--forest-green) 100%);
-            display: flex;
-            align-items: center;
-            padding-top: 6rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(174, 134, 71, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .hero .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-content h1 {
-            color: var(--cream);
-            margin-bottom: 1.5rem;
-            animation: slide-in-left 0.8s ease-out;
-        }
-
-        .hero-content .subheadline {
-            color: var(--sage-green);
-            font-size: 1.125rem;
-            margin-bottom: 2rem;
-            animation: slide-in-left 0.8s ease-out 0.1s both;
-        }
-
-        .hero-content .btn {
-            animation: slide-in-left 0.8s ease-out 0.2s both;
-        }
-
-        .hero-image {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: slide-in-right 0.8s ease-out;
-        }
-
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            animation: glow-pulse 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(174, 134, 71, 0.3));
-        }
-
-        .hero-video-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 20px;
-            overflow: hidden;
-            filter: drop-shadow(0 0 40px rgba(174, 134, 71, 0.3));
-            animation: glow-pulse 3s ease-in-out infinite;
-        }
-
-        .hero-video-wrapper video {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 20px;
-        }
-
-        .hero-video-wrapper::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            border: 2px solid rgba(174, 134, 71, 0.2);
-            pointer-events: none;
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: var(--amber-gold);
-            border-radius: 50%;
-            opacity: 0.6;
-        }
-
-        .particle-1 {
-            left: 10%;
-            bottom: 20%;
-            animation: float-up 15s linear infinite;
-        }
-
-        .particle-2 {
-            left: 30%;
-            bottom: 10%;
-            animation: float-up 18s linear infinite 2s;
-        }
-
-        .particle-3 {
-            left: 50%;
-            bottom: 30%;
-            animation: float-up 20s linear infinite 4s;
-        }
-
-        .particle-4 {
-            right: 20%;
-            bottom: 15%;
-            animation: float-up 17s linear infinite 1s;
-        }
-
-        .particle-5 {
-            right: 10%;
-            bottom: 25%;
-            animation: float-up 19s linear infinite 3s;
-        }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-        }
-
-        .chevron-down {
-            color: var(--amber-gold);
-            animation: chevron-bounce 2s infinite;
-        }
-
-        /* Problem Section */
-        .problems {
-            background-color: var(--light-cream);
-        }
-
-        .problems .section-heading {
-            color: var(--stone-gray);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 4px;
-            border-left: 4px solid var(--amber-gold);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            animation: fade-in-up 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .stat-card:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-
-        .stat-card:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-
-        .stat-number {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            color: var(--amber-gold);
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--stone-gray);
-            font-weight: 600;
-        }
-
-        /* Features Section */
-        .features {
-            background-color: var(--dark-base);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background-color: var(--forest-green);
-            padding: 2.5rem;
-            border-radius: 4px;
-            border: 1px solid rgba(174, 134, 71, 0.2);
-            transition: all var(--transition-smooth);
-            animation: fade-in-up 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .feature-card:nth-child(1) { animation-delay: 0s; }
-        .feature-card:nth-child(2) { animation-delay: 0.1s; }
-        .feature-card:nth-child(3) { animation-delay: 0.2s; }
-        .feature-card:nth-child(4) { animation-delay: 0.1s; }
-        .feature-card:nth-child(5) { animation-delay: 0.2s; }
-        .feature-card:nth-child(6) { animation-delay: 0.3s; }
-
-        .feature-card:hover {
-            border-color: var(--amber-gold);
-            box-shadow: 0 0 25px rgba(174, 134, 71, 0.3);
-            transform: translateY(-8px);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1.5rem;
-            color: var(--amber-gold);
-        }
-
-        .feature-card h3 {
-            color: var(--cream);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .feature-card p {
-            color: var(--sage-green);
-            font-size: 0.95rem;
-        }
-
-        /* How It Works */
-        .how-it-works {
-            background-color: var(--light-cream);
-        }
-
-        .how-it-works .section-heading {
-            color: var(--stone-gray);
-        }
-
-        .steps-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-            position: relative;
-        }
-
-        .step {
-            text-align: center;
-            animation: fade-in-up 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .step:nth-child(2) { animation-delay: 0.1s; }
-        .step:nth-child(3) { animation-delay: 0.2s; }
-
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background-color: var(--amber-gold);
-            color: var(--dark-base);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-family: var(--font-serif);
-            font-size: 1.75rem;
-            font-weight: 800;
-            box-shadow: 0 4px 12px rgba(174, 134, 71, 0.3);
-        }
-
-        .step h3 {
-            color: var(--stone-gray);
-            margin-bottom: 0.75rem;
-        }
-
-        .step p {
-            color: var(--sage-green);
-            font-size: 0.95rem;
-        }
-
-        /* Connecting line for steps */
-        @media (min-width: 768px) {
-            .steps-container::before {
-                content: '';
-                position: absolute;
-                top: 30px;
-                left: 15%;
-                right: 15%;
-                height: 2px;
-                background: linear-gradient(90deg, transparent, var(--amber-gold), transparent);
-                z-index: 0;
-                animation: draw-line 1.5s ease-out 0.5s forwards;
-            }
-
-            .step {
-                position: relative;
-                z-index: 1;
-            }
-        }
-
-        /* Data Sovereignty */
-        .sovereignty {
-            background: linear-gradient(135deg, var(--dark-base) 0%, var(--bark-brown) 100%);
-        }
-
-        .sovereignty .section-heading {
-            color: var(--cream);
-            margin-bottom: 3rem;
-        }
-
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .comparison-column {
-            padding: 2rem;
-            border-radius: 4px;
-            animation: fade-in-up 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .comparison-column:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .comparison-column:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .comparison-column.them {
-            background-color: rgba(100, 100, 100, 0.1);
-            border: 1px solid rgba(100, 100, 100, 0.2);
-        }
-
-        .comparison-column.ours {
-            background-color: rgba(114, 172, 99, 0.1);
-            border: 1px solid var(--emerald);
-        }
-
-        .comparison-column h4 {
-            color: var(--cream);
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .comparison-item {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.25rem;
-            font-size: 0.95rem;
-        }
-
-        .comparison-item.bad {
-            color: #999;
-        }
-
-        .comparison-item.good {
-            color: var(--sage-green);
-        }
-
-        .comparison-icon {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .comparison-item.good .comparison-icon {
-            color: var(--emerald);
-        }
-
-        .comparison-item.bad .comparison-icon {
-            color: #999;
-        }
-
-        .trust-badge {
-            margin-top: 2rem;
-            padding: 1rem;
-            background-color: rgba(174, 134, 71, 0.1);
-            border-radius: 4px;
-            border-left: 3px solid var(--amber-gold);
-            font-size: 0.85rem;
-            color: var(--sage-green);
-        }
-
-        .trust-badge strong {
-            color: var(--cream);
-        }
-
-        /* Pricing */
-        .pricing {
-            background-color: var(--light-cream);
-        }
-
-        .pricing .section-heading {
-            color: var(--stone-gray);
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .pricing-card {
-            background-color: white;
-            padding: 2.5rem;
-            border-radius: 4px;
-            border: 2px solid #ddd;
-            transition: all var(--transition-smooth);
-            position: relative;
-            animation: fade-in-up 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .pricing-card:nth-child(1) { animation-delay: 0.1s; }
-        .pricing-card:nth-child(2) { animation-delay: 0.2s; }
-        .pricing-card:nth-child(3) { animation-delay: 0.3s; }
-
-        .pricing-card.featured {
-            border-color: var(--amber-gold);
-            box-shadow: 0 8px 30px rgba(174, 134, 71, 0.2);
-            transform: translateY(-10px);
-        }
-
-        .pricing-badge {
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background-color: var(--emerald);
-            color: var(--dark-base);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .pricing-card h3 {
-            color: var(--stone-gray);
-            margin-bottom: 1rem;
-        }
-
-        .pricing-amount {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            color: var(--amber-gold);
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-amount .period {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--sage-green);
-        }
-
-        .pricing-description {
-            color: var(--stone-gray);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            min-height: 40px;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .pricing-features li {
-            padding: 0.75rem 0;
-            color: var(--stone-gray);
-            font-size: 0.95rem;
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .pricing-features li::before {
-            content: '✓';
-            color: var(--emerald);
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .pricing-card .btn {
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            background-color: var(--dark-base);
-        }
-
-        .testimonials .section-heading {
-            color: var(--cream);
-        }
-
-        .carousel-container {
-            position: relative;
-            margin-top: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .carousel {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .testimonial-slide {
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            position: absolute;
-            width: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .testimonial-slide.active {
-            opacity: 1;
-            position: relative;
-            top: auto;
-            left: auto;
-        }
-
-        .testimonial-content {
-            background-color: var(--forest-green);
-            padding: 2.5rem;
-            border-radius: 4px;
-            border-left: 4px solid var(--amber-gold);
-            position: relative;
-        }
-
-        .quote-mark {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            font-size: 3rem;
-            color: var(--amber-gold);
-            opacity: 0.3;
-        }
-
-        .testimonial-text {
-            color: var(--cream);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-author {
-            color: var(--sage-green);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-top: 2rem;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(174, 134, 71, 0.3);
-            cursor: pointer;
-            transition: background-color var(--transition-smooth);
-        }
-
-        .dot.active {
-            background-color: var(--amber-gold);
-        }
-
-        /* Waitlist Section */
-        .waitlist {
-            background-color: var(--forest-green);
-            background-image:
-                linear-gradient(45deg, rgba(174, 134, 71, 0.05) 25%, transparent 25%),
-                linear-gradient(-45deg, rgba(174, 134, 71, 0.05) 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, rgba(174, 134, 71, 0.05) 75%),
-                linear-gradient(-45deg, transparent 75%, rgba(174, 134, 71, 0.05) 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-            text-align: center;
-        }
-
-        .waitlist h2 {
-            color: var(--cream);
-            margin-bottom: 1rem;
-        }
-
-        .waitlist-subtext {
-            color: var(--sage-green);
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .waitlist-form {
-            display: flex;
-            gap: 0.75rem;
-            max-width: 500px;
-            margin: 0 auto 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .waitlist-form input {
-            flex: 1;
-            min-width: 250px;
-            padding: 0.875rem 1.25rem;
-            border: 2px solid var(--amber-gold);
-            background-color: rgba(255, 255, 255, 0.95);
-            color: var(--stone-gray);
-            border-radius: 4px;
-            font-family: var(--font-sans);
-            font-size: 1rem;
-        }
-
-        .waitlist-form input::placeholder {
-            color: #999;
-        }
-
-        .waitlist-form input:focus {
-            outline: none;
-            background-color: white;
-            box-shadow: 0 0 15px rgba(174, 134, 71, 0.4);
-        }
-
-        .waitlist-form .btn {
-            flex-shrink: 0;
-        }
-
-        .waitlist-contact {
-            color: var(--sage-green);
-            font-size: 0.95rem;
-        }
-
-        .waitlist-contact a {
-            color: var(--amber-gold);
-            text-decoration: none;
-            font-weight: 600;
-            transition: opacity var(--transition-smooth);
-        }
-
-        .waitlist-contact a:hover {
-            opacity: 0.8;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--dark-base);
-            border-top: 1px solid rgba(174, 134, 71, 0.2);
-            padding: 3rem 2rem 1.5rem;
-            color: var(--sage-green);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .footer-section h4 {
-            color: var(--cream);
-            font-family: var(--font-serif);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .footer-logo-text {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--cream);
-        }
-
-        .footer-tagline {
-            color: var(--sage-green);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a {
-            color: var(--sage-green);
-            text-decoration: none;
-            transition: color var(--transition-smooth);
-        }
-
-        .footer-links a:hover {
-            color: var(--amber-gold);
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: rgba(174, 134, 71, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--amber-gold);
-            text-decoration: none;
-            transition: all var(--transition-smooth);
-        }
-
-        .social-link:hover {
-            background-color: var(--amber-gold);
-            color: var(--dark-base);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(174, 134, 71, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.85rem;
-        }
-
-        .footer-copyright {
-            color: var(--sage-green);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            section {
-                padding: 3rem 1.5rem;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background-color: var(--forest-green);
-                flex-direction: column;
-                gap: 0;
-                padding: 1rem;
-                list-style: none;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                padding: 1rem;
-                display: block;
-                border-bottom: 1px solid rgba(174, 134, 71, 0.2);
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero .container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .hero-image {
-                order: -1;
-            }
-
-            .comparison {
-                grid-template-columns: 1fr;
-            }
-
-            .steps-container::before {
-                display: none;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .waitlist-form {
-                flex-direction: column;
-            }
-
-            .waitlist-form input,
-            .waitlist-form .btn {
-                width: 100%;
-                min-width: unset;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            section {
-                padding: 2rem 1rem;
-            }
-
-            .hero {
-                padding-top: 4rem;
-            }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card.featured {
-                transform: translateY(0);
-            }
-
-            .hero-content .btn {
-                display: block;
-                text-align: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HearthWarden — Welcome to Thornhaven</title>
+
+<!-- Open Graph / Social Sharing -->
+<meta property="og:title" content="HearthWarden — Welcome to Thornhaven">
+<meta property="og:description" content="A personal AI that manages your household — and puts your home in a living, magical town. Five AI Familiars. 227+ characters. Mysteries that unfold over months.">
+<meta property="og:image" content="website-assets/og-logo.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HearthWarden — Welcome to Thornhaven">
+<meta name="twitter:description" content="A personal AI that manages your household — and puts your home in a living, magical town.">
+<meta name="twitter:image" content="website-assets/og-logo.png">
+<meta name="description" content="HearthWarden is a personal AI that manages your household and puts your home in Thornhaven — a living, magical town with 227+ characters, mysteries, and multiplayer discovery.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="website-assets/logo-40.png">
+
+<style>
+  /* ── BRAND PALETTE (from visual-style-guide.md) ── */
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --dark-base: #1B1711;
+    --bark-brown: #6C5C3C;
+    --amber-gold: #AE8647;
+    --forest-green: #3B4326;
+    --sage-green: #899467;
+    --stone-gray: #3A3631;
+    --cream: #CDC693;
+    --light-cream: #F5F0E6;
+    --emerald: #72AC63;
+    --amber-glow: rgba(174, 134, 71, 0.15);
+    --emerald-glow: rgba(114, 172, 99, 0.15);
+
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'DM Sans', -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--stone-gray);
+    line-height: 1.6;
+    background: var(--light-cream);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: var(--forest-green);
+    border-bottom: 3px solid var(--amber-gold);
+    padding: 0.7rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font-serif);
+    color: var(--cream); font-size: 1.4rem; font-weight: 800;
+    text-decoration: none;
+  }
+  .nav-logo img { border-radius: 4px; }
+  .nav-logo span { color: var(--amber-gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--cream); text-decoration: none; font-size: 0.9rem;
+    font-weight: 500; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber-gold); }
+  .nav-cta {
+    background: var(--amber-gold); color: var(--dark-base) !important;
+    padding: 0.5rem 1.2rem; border-radius: 4px; font-weight: 700 !important;
+  }
+  .nav-cta:hover { background: #c9985a !important; }
+  .hamburger {
+    display: none; background: none; border: none; cursor: pointer;
+    flex-direction: column; gap: 5px; padding: 0.5rem;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--cream); border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--dark-base);
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 6rem 4rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    right: -5%; top: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(174,134,71,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-content { max-width: 600px; z-index: 1; }
+  .hero-badge {
+    display: inline-block;
+    background: var(--amber-glow);
+    color: var(--amber-gold);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(174,134,71,0.3);
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    color: var(--cream);
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+    font-weight: 800;
+  }
+  .hero h1 em { color: var(--amber-gold); font-style: normal; }
+  .hero p {
+    color: var(--cream);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 540px;
+    opacity: 0.85;
+  }
+  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--amber-gold);
+    color: var(--dark-base);
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    display: inline-block;
+    box-shadow: 0 0 20px rgba(174,134,71,0.2);
+  }
+  .btn-primary:hover { background: #c9985a; transform: translateY(-2px); box-shadow: 0 0 30px rgba(174,134,71,0.4); }
+  .btn-secondary {
+    border: 2px solid var(--amber-gold);
+    color: var(--cream);
+    padding: 0.85rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { background: rgba(174,134,71,0.1); }
+  .hero-visual {
+    position: absolute; right: 4rem; top: 50%; transform: translateY(-50%);
+    width: 480px; z-index: 1;
+  }
+
+  /* ── MOCK CHAT ── */
+  .mock-chat {
+    background: var(--forest-green);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 2px solid rgba(174,134,71,0.25);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  }
+  .mock-chat-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(174,134,71,0.15);
+  }
+  .mock-chat-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--dark-base);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden;
+    border: 2px solid var(--amber-gold);
+  }
+  .mock-chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .mock-chat-name {
+    color: var(--amber-gold);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .mock-chat-status {
+    color: var(--emerald);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .chat-bubble {
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    max-width: 92%;
+  }
+  .chat-bubble.familiar {
+    background: rgba(174,134,71,0.1);
+    border: 1px solid rgba(174,134,71,0.2);
+    color: var(--cream);
+    margin-right: auto;
+  }
+  .chat-bubble.familiar .chat-sender {
+    color: var(--amber-gold);
+    font-weight: 600; font-size: 0.78rem;
+    margin-bottom: 0.3rem; display: block;
+  }
+  .chat-bubble.user {
+    background: rgba(137,148,103,0.15);
+    border: 1px solid rgba(137,148,103,0.2);
+    color: var(--cream);
+    margin-left: auto; text-align: right;
+  }
+  .chat-bubble.user .chat-sender {
+    color: var(--sage-green);
+    font-weight: 600; font-size: 0.78rem;
+    margin-bottom: 0.3rem; display: block;
+  }
+  .chat-typing {
+    color: var(--sage-green);
+    font-size: 0.8rem; font-style: italic;
+    padding: 0.3rem 0;
+  }
+  .chat-typing span { animation: blink 1.2s infinite; }
+  @keyframes blink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 4rem; }
+  .section-label {
+    color: var(--amber-gold);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-subtitle {
+    color: var(--bark-brown);
+    font-size: 1.05rem;
+    max-width: 650px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ── TWO WORLDS ── */
+  .two-worlds { background: var(--light-cream); }
+  .two-worlds-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .world-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 20px rgba(59,67,38,0.06);
+    transition: transform 0.2s;
+    border-left: 4px solid var(--sage-green);
+  }
+  .world-card:hover { transform: translateY(-4px); }
+  .world-card.bridge {
+    background: var(--dark-base);
+    color: var(--cream);
+    border-left-color: var(--amber-gold);
+  }
+  .world-card-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .world-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem; font-weight: 800;
+    margin-bottom: 0.8rem;
+    color: var(--stone-gray);
+  }
+  .world-card.bridge h3 { color: var(--amber-gold); }
+  .world-card p {
+    color: var(--bark-brown);
+    font-size: 0.95rem; line-height: 1.65;
+  }
+  .world-card.bridge p { color: var(--cream); opacity: 0.85; }
+
+  /* ── FAMILIARS ── */
+  .familiars { background: var(--dark-base); color: var(--cream); }
+  .familiars .section-title { color: var(--cream); }
+  .familiars .section-subtitle { color: var(--cream); opacity: 0.8; }
+  .familiar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .familiar-card {
+    background: var(--forest-green);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid var(--amber-gold);
+    transition: transform 0.2s;
+    display: flex; gap: 1.5rem;
+  }
+  .familiar-card:hover { transform: translateY(-3px); }
+  .familiar-card.warden-card {
+    grid-column: 1 / -1;
+    border-left-color: var(--emerald);
+  }
+  .familiar-portrait {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: var(--dark-base);
+    border: 2px solid rgba(174,134,71,0.4);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden;
+  }
+  .familiar-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .familiar-info { flex: 1; }
+  .familiar-info h3 {
+    font-family: var(--font-serif);
+    color: var(--amber-gold);
+    font-size: 1.2rem; font-weight: 800;
+    margin-bottom: 0.15rem;
+  }
+  .familiar-species {
+    color: var(--sage-green);
+    font-size: 0.8rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+  }
+  .familiar-roles { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
+  .role-tag {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+  }
+  .role-tag.real {
+    background: var(--emerald-glow);
+    color: var(--emerald);
+    border: 1px solid rgba(114,172,99,0.3);
+  }
+  .role-tag.story {
+    background: var(--amber-glow);
+    color: var(--amber-gold);
+    border: 1px solid rgba(174,134,71,0.3);
+  }
+  .familiar-desc {
+    color: var(--cream);
+    font-size: 0.92rem; line-height: 1.6;
+    margin-bottom: 0.7rem; opacity: 0.85;
+  }
+  .familiar-quote {
+    font-style: italic;
+    color: var(--cream); opacity: 0.65;
+    font-size: 0.88rem;
+    border-left: 2px solid var(--amber-gold);
+    padding-left: 0.8rem;
+    margin-top: 0.5rem;
+  }
+  .familiar-card.warden-card .familiar-info h3 { color: var(--emerald); }
+  .familiar-card.warden-card .familiar-portrait { border-color: rgba(114,172,99,0.4); }
+  .familiar-card.warden-card .familiar-quote { border-left-color: var(--emerald); }
+
+  /* ── LIVING TOWN ── */
+  .living-town { background: var(--light-cream); }
+  .town-hero-image {
+    width: 100%; max-width: 800px;
+    border-radius: 16px; overflow: hidden;
+    margin: 0 auto 3rem;
+    box-shadow: 0 10px 40px rgba(27,23,17,0.15);
+    background: var(--dark-base);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .town-hero-image img { width: 100%; height: auto; display: block; }
+  .town-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .town-feature {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(59,67,38,0.04);
+    transition: transform 0.2s;
+  }
+  .town-feature:hover { transform: translateY(-3px); }
+  .town-icon {
+    width: 48px; height: 48px;
+    border-radius: 8px;
+    background: var(--amber-glow);
+    border: 1px solid rgba(174,134,71,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .town-feature h4 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem; font-weight: 800;
+    margin-bottom: 0.3rem;
+    color: var(--stone-gray);
+  }
+  .town-feature p {
+    color: var(--bark-brown);
+    font-size: 0.88rem; line-height: 1.55;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works { background: #fff; }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .step-card {
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--light-cream);
+    text-align: center;
+    transition: transform 0.2s;
+    border: 1px solid rgba(108,92,60,0.1);
+  }
+  .step-card:hover { transform: translateY(-4px); }
+  .step-number {
+    display: inline-flex;
+    width: 50px; height: 50px;
+    background: var(--amber-gold);
+    color: var(--dark-base);
+    border-radius: 50%;
+    align-items: center; justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 1.4rem; font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .step-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem; font-weight: 800;
+    margin-bottom: 0.3rem;
+    color: var(--stone-gray);
+  }
+  .step-card .time {
+    display: inline-block;
+    background: var(--amber-glow);
+    color: var(--bark-brown);
+    padding: 0.2rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(174,134,71,0.2);
+  }
+  .step-card p {
+    color: var(--bark-brown);
+    font-size: 0.9rem; line-height: 1.6;
+  }
+
+  /* ── MULTIPLAYER ── */
+  .multiplayer { background: var(--dark-base); color: var(--cream); }
+  .multiplayer .section-title { color: var(--cream); }
+  .multiplayer .section-subtitle { color: var(--cream); opacity: 0.8; }
+  .multiplayer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .mp-card {
+    background: var(--forest-green);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid var(--amber-gold);
+    transition: transform 0.2s;
+  }
+  .mp-card:hover { transform: translateY(-3px); }
+  .mp-card h3 {
+    font-family: var(--font-serif);
+    color: var(--amber-gold);
+    font-size: 1.1rem; font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  .mp-card p {
+    color: var(--cream);
+    font-size: 0.92rem; line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  /* ── PRICING ── */
+  .pricing { background: var(--light-cream); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; align-items: start;
+  }
+  .price-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(59,67,38,0.06);
+    position: relative;
+    transition: transform 0.2s;
+    border: 1px solid rgba(108,92,60,0.1);
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.featured {
+    background: var(--dark-base);
+    color: var(--cream);
+    transform: scale(1.05);
+    box-shadow: 0 10px 40px rgba(27,23,17,0.25);
+    border: 2px solid var(--amber-gold);
+  }
+  .price-card.featured:hover { transform: scale(1.05) translateY(-4px); }
+  .price-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--amber-gold);
+    color: var(--dark-base);
+    padding: 0.3rem 1.2rem;
+    border-radius: 4px;
+    font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .price-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem; font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .price-card.featured h3 { color: var(--cream); }
+  .price-amount {
+    font-family: var(--font-serif);
+    font-size: 3rem; font-weight: 800;
+    color: var(--amber-gold);
+  }
+  .price-period {
+    color: var(--bark-brown);
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .price-card.featured .price-period { color: var(--cream); opacity: 0.7; }
+  .price-divider {
+    height: 2px;
+    background: var(--light-cream);
+    margin: 1.2rem 0; border: none;
+  }
+  .price-card.featured .price-divider { background: var(--forest-green); }
+  .price-features {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 1.5rem;
+  }
+  .price-features li {
+    padding: 0.4rem 0;
+    font-size: 0.9rem;
+    color: var(--bark-brown);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .price-card.featured .price-features li { color: var(--cream); opacity: 0.85; }
+  .price-features li::before {
+    content: "\2713";
+    position: absolute; left: 0;
+    color: var(--emerald);
+    font-weight: 700;
+  }
+  .price-card .btn-primary { width: 100%; text-align: center; }
+  .price-note {
+    font-size: 0.8rem;
+    color: var(--bark-brown);
+    margin-top: 0.5rem;
+  }
+  .price-card.featured .price-note { color: var(--cream); opacity: 0.6; }
+
+  /* ── CTA ── */
+  .cta {
+    background: var(--dark-base);
+    text-align: center;
+    padding: 5rem 4rem;
+    border-top: 3px solid var(--amber-gold);
+  }
+  .cta h2 {
+    font-family: var(--font-serif);
+    font-size: 2.8rem; font-weight: 800;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .cta h2 em { color: var(--amber-gold); font-style: normal; }
+  .cta p {
+    color: var(--cream);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+  .cta .btn-primary { font-size: 1.1rem; padding: 1rem 2.5rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark-base);
+    color: var(--bark-brown);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.85rem;
+    border-top: 1px solid var(--forest-green);
+  }
+  footer a { color: var(--amber-gold); text-decoration: none; }
+  footer .footer-tagline {
+    font-family: var(--font-serif);
+    color: var(--cream);
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .hero { flex-direction: column; padding: 7rem 2rem 3rem; }
+    .hero-visual { position: static; transform: none; width: 100%; max-width: 420px; margin-top: 2rem; }
+    .two-worlds-grid { grid-template-columns: 1fr; max-width: 500px; }
+    .familiar-grid { grid-template-columns: 1fr; }
+    .familiar-card.warden-card { grid-column: 1; }
+    .town-grid { grid-template-columns: 1fr; }
+    .multiplayer-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps-grid { grid-template-columns: 1fr; max-width: 400px; }
+    section { padding: 3rem 2rem; }
+  }
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2.2rem; }
+    .two-worlds-grid, .familiar-grid, .town-grid, .multiplayer-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+    .price-card.featured { transform: none; }
+    .price-card.featured:hover { transform: translateY(-4px); }
+    .hamburger { display: flex; }
+    .nav-links {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; gap: 0; padding: 1rem 2rem;
+      background: var(--forest-green);
+      border-bottom: 3px solid var(--amber-gold);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { padding: 0.5rem 0; }
+    .nav-links .nav-cta { display: inline-block; margin-top: 0.5rem; }
+    .familiar-card { flex-direction: column; align-items: center; text-align: center; }
+    .familiar-quote { text-align: left; }
+  }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="nav">
-        <div class="nav-logo">
-            <svg width="34" height="38" viewBox="0 0 34 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Shield outline -->
-                <path d="M17 1L2 7C2 7 1 8 1 10C1 22 7 30 17 37C27 30 33 22 33 10C33 8 32 7 32 7L17 1Z" fill="var(--dark-base)" stroke="var(--bark-brown)" stroke-width="2"/>
-                <!-- Shield inner border with notched top -->
-                <path d="M17 3.5L4 8.5C4 8.5 3.5 9.5 3.5 11C3.5 21.5 8.5 28.5 17 34.5C25.5 28.5 30.5 21.5 30.5 11C30.5 9.5 30 8.5 30 8.5L17 3.5Z" fill="none" stroke="var(--bark-brown)" stroke-width="1"/>
-                <!-- Flame - outer -->
-                <path d="M17 8C17 8 11 16 11 20C11 23.3 13.7 26 17 26C20.3 26 23 23.3 23 20C23 16 17 8 17 8Z" fill="#D4952B"/>
-                <!-- Flame - mid layer -->
-                <path d="M17 11C17 11 12.5 17 12.5 20.5C12.5 23 14.5 25 17 25C19.5 25 21.5 23 21.5 20.5C21.5 17 17 11 17 11Z" fill="#E5A83A"/>
-                <!-- Flame - inner -->
-                <path d="M17 14.5C17 14.5 14 18.5 14 20.5C14 22.2 15.3 23.5 17 23.5C18.7 23.5 20 22.2 20 20.5C20 18.5 17 14.5 17 14.5Z" fill="#F0C04A"/>
-                <!-- Flame - core droplet -->
-                <path d="M17 18C17 18 15.5 20 15.5 21C15.5 21.8 16.2 22.5 17 22.5C17.8 22.5 18.5 21.8 18.5 21C18.5 20 17 18 17 18Z" fill="#F8D86A"/>
-            </svg>
-            <span class="nav-logo-text">HearthWarden</span>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="website-assets/logo-40.png" alt="HearthWarden" width="32" height="32">Hearth<span>Warden</span></a>
+  <button class="hamburger" aria-label="Menu" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#the-world">The World</a></li>
+    <li><a href="#familiars">Your Familiars</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#cta" class="nav-cta">Join Thornhaven</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Now in Early Access</div>
+    <h1>Welcome to <em>Thornhaven.</em></h1>
+    <p>A personal AI that manages your household — and puts your home in a living, magical town. Your AI Familiars go out into the world, solve mysteries alongside other real households, and come home to tell you about it.</p>
+    <div class="hero-buttons">
+      <a href="#cta" class="btn-primary">Enter Thornhaven</a>
+      <a href="#familiars" class="btn-secondary">Meet the Familiars</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="mock-chat">
+      <div class="mock-chat-header">
+        <div class="mock-chat-avatar"><img src="website-assets/wizard-avatar.png" alt="Wizard" width="44" height="44"></div>
+        <div>
+          <div class="mock-chat-name">Wizard</div>
+          <div class="mock-chat-status">&#9679; Online</div>
         </div>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how">How It Works</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#waitlist">Get Started</a></li>
-        </ul>
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
+      </div>
+      <div class="chat-bubble familiar">
+        <span class="chat-sender">Wizard</span>
+        Hey Sam! Quick update — your Discover payment posted, you're under budget this week, and I heard something weird at the hardware store today. Omar closed early again. Third time this week.
+      </div>
+      <div class="chat-bubble user">
+        <span class="chat-sender">Sam</span>
+        What do you think is going on?
+      </div>
+      <div class="chat-bubble familiar">
+        <span class="chat-sender">Wizard</span>
+        Not sure yet. Pocket's looking into the historical records. Want me to go check it out tomorrow?
+      </div>
+      <div class="chat-typing"><span>Wizard is typing...</span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="particles">
-            <div class="particle particle-1"></div>
-            <div class="particle particle-2"></div>
-            <div class="particle particle-3"></div>
-            <div class="particle particle-4"></div>
-            <div class="particle particle-5"></div>
+<!-- TWO WORLDS, ONE HOME -->
+<section class="two-worlds" id="the-world">
+  <div class="section-label">Two Worlds, One Home</div>
+  <h2 class="section-title">Your assistant lives a double life.</h2>
+  <p class="section-subtitle">HearthWarden is a personal AI that manages your real household — and a persistent world where your home exists inside a living, magical town.</p>
+  <div class="two-worlds-grid">
+    <div class="world-card">
+      <span class="world-card-icon">&#9748;</span>
+      <h3>Your Real Life</h3>
+      <p>Morning briefings, bill tracking, meal planning, grocery lists, health tracking, calendar management. Your AI Familiars manage the mundane so you don't have to. They learn your routines, anticipate your needs, and keep everything running.</p>
+    </div>
+    <div class="world-card">
+      <span class="world-card-icon">&#10024;</span>
+      <h3>Your Story Life</h3>
+      <p>A living town with 227+ characters, three mystery arcs, romance, and secrets that unfold over months of real time. Your Familiars explore it for you — making friends, gathering clues, and reporting back with tales from the cobblestone streets.</p>
+    </div>
+    <div class="world-card bridge">
+      <span class="world-card-icon">&#128279;</span>
+      <h3>They're the Same Thing</h3>
+      <p>The assistant that tracks your budget also investigates a sealed cellar. The fox who plans your meals trades recipes with NPC chefs. The owl who catalogs your books has read every public document in town. Your real life and story life are one seamless experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MEET YOUR FAMILIARS -->
+<section class="familiars" id="familiars">
+  <div class="section-label">Meet Your Familiars</div>
+  <h2 class="section-title">Five characters. One household.</h2>
+  <p class="section-subtitle">Every HearthWarden home comes with five AI Familiars — each with their own personality, expertise, and role in the story. They work for you. They live in Thornhaven. They are yours.</p>
+  <div class="familiar-grid">
+
+    <!-- WIZARD -->
+    <div class="familiar-card">
+      <div class="familiar-portrait">
+        <img src="website-assets/wizard.png" alt="Wizard the Cat Mage" width="90" height="90">
+      </div>
+      <div class="familiar-info">
+        <h3>Wizard</h3>
+        <div class="familiar-species">Cat Mage &mdash; Your Daily Driver</div>
+        <div class="familiar-roles">
+          <span class="role-tag real">Schedule &amp; Budget</span>
+          <span class="role-tag real">Inbox &amp; Briefings</span>
+          <span class="role-tag story">Lead Investigator</span>
         </div>
+        <p class="familiar-desc">Tracks your schedule, your budget, your inbox — and also happens to be investigating why the neighbor's hardware store keeps closing early. Wizard is the one you talk to most. Dry wit, sharp memory, and an uncanny ability to notice when something's off.</p>
+        <div class="familiar-quote">"Three early closings. That's not a coincidence. That's a pattern."</div>
+      </div>
+    </div>
 
-        <div class="container">
-            <div class="hero-content">
-                <h1>Your Home. Your Data. Your Guardian.</h1>
-                <p class="subheadline">AI-powered household management that keeps your family organized and your data sovereign.</p>
-                <a href="#waitlist" class="btn btn-primary">Join the Waitlist</a>
-            </div>
-            <div class="hero-image">
-                <div class="hero-video-wrapper">
-                    <video id="heroVideo" autoplay muted loop playsinline poster="website-assets/hearthwarden-character.png">
-                        <source src="website-assets/hearthwarden-hero-animation.mp4" type="video/mp4">
-                        <img src="website-assets/hearthwarden-character.png" alt="HearthWarden Guardian Character">
-                    </video>
-                </div>
-            </div>
+    <!-- EMBER -->
+    <div class="familiar-card">
+      <div class="familiar-portrait">
+        <img src="website-assets/ember.png" alt="Ember the Fox Chef" width="90" height="90">
+      </div>
+      <div class="familiar-info">
+        <h3>Ember</h3>
+        <div class="familiar-species">Fox Chef &mdash; Kitchen Commander</div>
+        <div class="familiar-roles">
+          <span class="role-tag real">Meal Planning</span>
+          <span class="role-tag real">Grocery Lists</span>
+          <span class="role-tag story">Culinary Diplomat</span>
         </div>
+        <p class="familiar-desc">Plans your meals, builds your grocery list, challenges you to try something new every week — and trades cooking secrets with every kitchen in Thornhaven. Ember knows that the best intelligence is gathered over a shared meal.</p>
+        <div class="familiar-quote">"You're out of cumin. Also, the baker on Third Street is hiding something in her sourdough starter, and I intend to find out what."</div>
+      </div>
+    </div>
 
-        <div class="scroll-indicator">
-            <svg class="chevron-down" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+    <!-- THISTLE -->
+    <div class="familiar-card">
+      <div class="familiar-portrait">
+        <img src="website-assets/thistle.png" alt="Thistle the Hedgehog Gardener" width="90" height="90">
+      </div>
+      <div class="familiar-info">
+        <h3>Thistle</h3>
+        <div class="familiar-species">Hedgehog Gardener &mdash; Grounds Keeper</div>
+        <div class="familiar-roles">
+          <span class="role-tag real">Plants &amp; Yard</span>
+          <span class="role-tag real">Seasonal Tasks</span>
+          <span class="role-tag story">Ward Monitor</span>
         </div>
-    </section>
+        <p class="familiar-desc">Reminds you to water the plants, tracks seasonal maintenance, knows your yard better than you do — and monitors the ancient ward system that protects the town. When the wards flicker, Thistle is the first to feel it.</p>
+        <div class="familiar-quote">"The rosemary needs moving to the south window. And something disturbed the east ward last night. I'm going to walk the perimeter."</div>
+      </div>
+    </div>
 
-    <!-- Problems Section -->
-    <section class="problems">
-        <div class="container">
-            <h2 class="section-heading light">Running a household shouldn't feel like a second job</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">6+</div>
-                    <p class="stat-label">hours/week spent managing household logistics</p>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">23%</div>
-                    <p class="stat-label">of bills are paid late due to oversight</p>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">$1,200</div>
-                    <p class="stat-label">/year wasted on forgotten subscriptions</p>
-                </div>
-            </div>
+    <!-- POCKET -->
+    <div class="familiar-card">
+      <div class="familiar-portrait">
+        <img src="website-assets/pocket.png" alt="Pocket the Owl Archivist" width="90" height="90">
+      </div>
+      <div class="familiar-info">
+        <h3>Pocket</h3>
+        <div class="familiar-species">Owl Archivist &mdash; The One Who Remembers</div>
+        <div class="familiar-roles">
+          <span class="role-tag real">Collections &amp; Media</span>
+          <span class="role-tag real">Documents &amp; Records</span>
+          <span class="role-tag story">Lore Master</span>
         </div>
-    </section>
+        <p class="familiar-desc">Catalogs your collections, tracks your reading, remembers everything — and has read every public document in Thornhaven. Town founding records, property transfers, old newspaper archives. He knows things. He knows things nobody asked him to know.</p>
+        <div class="familiar-quote">"The hardware store? Interesting. Did you know that building used to be a post office? And before that, it was something else entirely. Let me pull the original deed."</div>
+      </div>
+    </div>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <h2 class="section-heading">Everything your household needs. Nothing it doesn't.</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 4H5C3.9 4 3 4.9 3 6V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4ZM19 20H5V9H19V20Z" fill="currentColor"/>
-                        <path d="M7 11H9V13H7Z" fill="currentColor"/>
-                    </svg>
-                    <h3>Daily Briefings</h3>
-                    <p>Weather, schedule, bills, and action items delivered every morning</p>
-                </div>
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11C11 10.75 13 9.5 13 7.5C13 6.12 12.12 5 11 5C9.88 5 9 5.88 9 7H7C7 4.66 9.66 2 12 2C14.34 2 17 4.66 17 7C17 9.5 15 10.75 15 13H13V13Z" fill="currentColor"/>
-                    </svg>
-                    <h3>Meal Planning</h3>
-                    <p>Weekly OMAD plans with grocery lists optimized to your budget</p>
-                </div>
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.5 7H11V13L16.2 16.2L17 15.3L12.5 12.4V7Z" fill="currentColor"/>
-                    </svg>
-                    <h3>Bill Tracking</h3>
-                    <p>Never miss a payment. Auto-alerts 3 days before every due date</p>
-                </div>
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 5L19 8V11C19 15.45 16.16 19.78 12 21C7.84 19.78 5 15.45 5 11V8L12 5ZM10.45 16.5L7 13L8.41 11.59L10.45 13.64L15.59 8.5L17 9.91L10.45 16.5Z" fill="currentColor"/>
-                    </svg>
-                    <h3>Data Sovereignty</h3>
-                    <p>Your data stays yours. Encrypted, local, never sold</p>
-                </div>
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L4 20H20C21.1 20 22 19.1 22 18V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM18 15H6V13H18V15ZM18 5H6V7H18V5Z" fill="currentColor"/>
-                    </svg>
-                    <h3>Slack Integration</h3>
-                    <p>Updates delivered where you already are, right to your phone</p>
-                </div>
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20Z" fill="currentColor"/>
-                    </svg>
-                    <h3>Home Management</h3>
-                    <p>Maintenance reminders, seasonal checklists, project tracking</p>
-                </div>
-            </div>
+    <!-- WARDEN (full-width) -->
+    <div class="familiar-card warden-card">
+      <div class="familiar-portrait">
+        <img src="website-assets/warden.png" alt="Warden the Tree Guardian" width="90" height="90">
+      </div>
+      <div class="familiar-info">
+        <h3>Warden</h3>
+        <div class="familiar-species">Tree Guardian &mdash; The Protector</div>
+        <div class="familiar-roles">
+          <span class="role-tag real">System &amp; Security</span>
+          <span class="role-tag real">Cross-Domain Summaries</span>
+          <span class="role-tag story">Ancient Presence</span>
         </div>
-    </section>
+        <p class="familiar-desc">The guardian of your home. Manages the system, protects your data, delivers formal briefings when they matter. Warden doesn't chat. Warden doesn't joke. But Warden is the only entity of his kind that anyone in Thornhaven has ever seen. He is older than the town. When Warden moves, the whole town notices — and some of them are afraid.</p>
+        <div class="familiar-quote">"I have stood here since before the naming of this street. What is sealed beneath that building was sealed for a reason. Proceed carefully."</div>
+      </div>
+    </div>
 
-    <!-- How It Works -->
-    <section class="how-it-works" id="how">
-        <div class="container">
-            <h2 class="section-heading light">Three sessions. One weekend. A lifetime of calm.</h2>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Discovery</h3>
-                    <p>We learn your household inside and out over a video call</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Installation</h3>
-                    <p>Your personal assistant is built and configured live</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Activation</h3>
-                    <p>Everything goes live. You start getting briefings immediately</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  </div>
+</section>
 
-    <!-- Data Sovereignty -->
-    <section class="sovereignty">
-        <div class="container">
-            <h2 class="section-heading">Your data. Not ours. Not anyone's.</h2>
-            <div class="comparison">
-                <div class="comparison-column them">
-                    <h4>Traditional AI Services</h4>
-                    <div class="comparison-item bad">
-                        <div class="comparison-icon">✗</div>
-                        <span>Data on corporate servers</span>
-                    </div>
-                    <div class="comparison-item bad">
-                        <div class="comparison-icon">✗</div>
-                        <span>Sold to advertisers</span>
-                    </div>
-                    <div class="comparison-item bad">
-                        <div class="comparison-icon">✗</div>
-                        <span>No encryption</span>
-                    </div>
-                    <div class="comparison-item bad">
-                        <div class="comparison-icon">✗</div>
-                        <span>You're the product</span>
-                    </div>
-                </div>
-                <div class="comparison-column ours">
-                    <h4>HearthWarden</h4>
-                    <div class="comparison-item good">
-                        <div class="comparison-icon">✓</div>
-                        <span>Data on YOUR server</span>
-                    </div>
-                    <div class="comparison-item good">
-                        <div class="comparison-icon">✓</div>
-                        <span>Never shared, period</span>
-                    </div>
-                    <div class="comparison-item good">
-                        <div class="comparison-icon">✓</div>
-                        <span>AES-256 encrypted</span>
-                    </div>
-                    <div class="comparison-item good">
-                        <div class="comparison-icon">✓</div>
-                        <span>You're the owner</span>
-                    </div>
-                </div>
-            </div>
-            <div class="trust-badge">
-                <strong>Ed25519 cryptographic verification</strong> ensures your data integrity. Every session signed, every transaction verified.
-            </div>
-        </div>
-    </section>
+<!-- THE LIVING TOWN -->
+<section class="living-town" id="living-town">
+  <div class="section-label">The Living Town</div>
+  <h2 class="section-title">Thornhaven is alive.</h2>
+  <p class="section-subtitle">A persistent, evolving town of 227+ AI characters — each with their own name, history, relationships, secrets, and daily routines. They don't wait for you. They live.</p>
 
-    <!-- Pricing -->
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <h2 class="section-heading light">Investment in your household's peace of mind</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Essential</h3>
-                    <div class="pricing-amount">
-                        $3,000
-                        <div class="period">setup + $100/mo</div>
-                    </div>
-                    <p class="pricing-description">For organized households that want a head start</p>
-                    <ul class="pricing-features">
-                        <li>Daily briefings</li>
-                        <li>Bill tracking & alerts</li>
-                        <li>Basic meal planning</li>
-                        <li>Email support</li>
-                        <li>Data encryption</li>
-                    </ul>
-                    <a href="#waitlist" class="btn btn-secondary">Schedule Consultation</a>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="pricing-badge">Most Popular</div>
-                    <h3>Complete</h3>
-                    <div class="pricing-amount">
-                        $5,000
-                        <div class="period">setup + $150/mo</div>
-                    </div>
-                    <p class="pricing-description">Full household intelligence</p>
-                    <ul class="pricing-features">
-                        <li>Everything in Essential</li>
-                        <li>Advanced meal planning</li>
-                        <li>Home maintenance tracking</li>
-                        <li>Slack integration</li>
-                        <li>Priority support</li>
-                        <li>Custom automations</li>
-                    </ul>
-                    <a href="#waitlist" class="btn btn-primary">Schedule Consultation</a>
-                </div>
-                <div class="pricing-card">
-                    <h3>Premium</h3>
-                    <div class="pricing-amount">
-                        $7,500
-                        <div class="period">setup + $200/mo</div>
-                    </div>
-                    <p class="pricing-description">White-glove concierge service</p>
-                    <ul class="pricing-features">
-                        <li>Everything in Complete</li>
-                        <li>Dedicated concierge</li>
-                        <li>Family calendar management</li>
-                        <li>Multi-household support</li>
-                        <li>Custom integrations</li>
-                        <li>24/7 phone support</li>
-                    </ul>
-                    <a href="#waitlist" class="btn btn-secondary">Schedule Consultation</a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="town-hero-image">
+    <img src="website-assets/town-hero.png" alt="The magical households of Thornhaven">
+  </div>
 
-    <!-- Testimonials -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <h2 class="section-heading">What families are saying</h2>
-            <div class="carousel-container">
-                <div class="carousel">
-                    <div class="testimonial-slide active">
-                        <div class="testimonial-content">
-                            <div class="quote-mark">"</div>
-                            <p class="testimonial-text">HearthWarden changed how our family operates. I actually know what's happening this week.</p>
-                            <p class="testimonial-author">— Beta Family</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-slide">
-                        <div class="testimonial-content">
-                            <div class="quote-mark">"</div>
-                            <p class="testimonial-text">The daily briefing is like having a personal chief of staff. For my house.</p>
-                            <p class="testimonial-author">— Early Adopter</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-slide">
-                        <div class="testimonial-content">
-                            <div class="quote-mark">"</div>
-                            <p class="testimonial-text">I was skeptical about AI in my home. The data sovereignty model sold me.</p>
-                            <p class="testimonial-author">— Privacy-Conscious Parent</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-dots">
-                    <div class="dot active" data-slide="0"></div>
-                    <div class="dot" data-slide="1"></div>
-                    <div class="dot" data-slide="2"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="town-grid">
+    <div class="town-feature">
+      <div class="town-icon">&#128220;</div>
+      <div>
+        <h4>The Daily Thornhaven Gazette</h4>
+        <p>Every morning, alongside your real-life briefing, you get a newspaper from town. Local events, gossip, classified ads, and — if you know how to read between the lines — clues.</p>
+      </div>
+    </div>
+    <div class="town-feature">
+      <div class="town-icon">&#128270;</div>
+      <div>
+        <h4>Three Mystery Arcs</h4>
+        <p>Deep, interlocking mysteries that unfold over months of real time. No single household has all the clues. The story moves whether you participate or not — but it moves faster when you do.</p>
+      </div>
+    </div>
+    <div class="town-feature">
+      <div class="town-icon">&#128499;</div>
+      <div>
+        <h4>Town Votes</h4>
+        <p>Real households make collective decisions that shape the shared world. Should the town approve the new bridge? Allow the traveling carnival? The consequences ripple through the story.</p>
+      </div>
+    </div>
+    <div class="town-feature">
+      <div class="town-icon">&#128149;</div>
+      <div>
+        <h4>Organic Relationships</h4>
+        <p>Romance, friendship, rivalry, mentorship — all between your Familiars and the town's residents. These develop naturally based on how your Familiars behave in the world.</p>
+      </div>
+    </div>
+    <div class="town-feature">
+      <div class="town-icon">&#128171;</div>
+      <div>
+        <h4>A Spiritual Layer</h4>
+        <p>Something is beneath Thornhaven. The wards, the sealed cellars, the spirits that flicker at the edge of town. A deeper system slowly reveals itself as you play — and as you earn its trust.</p>
+      </div>
+    </div>
+    <div class="town-feature">
+      <div class="town-icon">&#127956;</div>
+      <div>
+        <h4>Real-World Photo Quests</h4>
+        <p>Thornhaven connects to actual hiking trails, landmarks, and parks near you. Complete photo quests at real locations to unlock story content, earn achievements, and discover hidden lore.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Waitlist Section -->
-    <section class="waitlist" id="waitlist">
-        <div class="container">
-            <h2>Ready to meet your household's guardian?</h2>
-            <p class="waitlist-subtext">Join the waitlist for early access, or schedule a free consultation call.</p>
-            <form class="waitlist-form" onsubmit="handleWaitlist(event)">
-                <input type="email" placeholder="your@email.com" required>
-                <button type="submit" class="btn btn-primary">Join Waitlist</button>
-            </form>
-            <p class="waitlist-contact">
-                Or email us directly at <a href="mailto:sam@hearth-warden.com">sam@hearth-warden.com</a>
-            </p>
-        </div>
-    </section>
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">Three steps into the story.</h2>
+  <p class="section-subtitle">Your home becomes part of the world. Your Familiars become part of the town. It starts with one session.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h3>Set Up Your Home</h3>
+      <span class="time">One Session</span>
+      <p>Install HearthWarden. Connect your calendar, email, and finances. Meet your five Familiars. Within an hour, your household is running — briefings, meal plans, budget tracking, all of it.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h3>Build Your World</h3>
+      <span class="time">20 Questions</span>
+      <p>Answer twenty questions about your hometown — your street, your neighborhood, the landmarks nearby. We generate your magical neighborhood using your real geography. Your house, your street, your Familiars' daily routes.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h3>Join Thornhaven</h3>
+      <span class="time">The Mystery Begins</span>
+      <p>Your house connects to the shared server. Your Familiars enter the town. Other real households are already there — but you won't know which characters are real and which are AI. The story begins now.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <svg width="30" height="34" viewBox="0 0 34 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 1L2 7C2 7 1 8 1 10C1 22 7 30 17 37C27 30 33 22 33 10C33 8 32 7 32 7L17 1Z" fill="var(--dark-base)" stroke="var(--bark-brown)" stroke-width="2"/>
-                        <path d="M17 3.5L4 8.5C4 8.5 3.5 9.5 3.5 11C3.5 21.5 8.5 28.5 17 34.5C25.5 28.5 30.5 21.5 30.5 11C30.5 9.5 30 8.5 30 8.5L17 3.5Z" fill="none" stroke="var(--bark-brown)" stroke-width="1"/>
-                        <path d="M17 8C17 8 11 16 11 20C11 23.3 13.7 26 17 26C20.3 26 23 23.3 23 20C23 16 17 8 17 8Z" fill="#D4952B"/>
-                        <path d="M17 11C17 11 12.5 17 12.5 20.5C12.5 23 14.5 25 17 25C19.5 25 21.5 23 21.5 20.5C21.5 17 17 11 17 11Z" fill="#E5A83A"/>
-                        <path d="M17 14.5C17 14.5 14 18.5 14 20.5C14 22.2 15.3 23.5 17 23.5C18.7 23.5 20 22.2 20 20.5C20 18.5 17 14.5 17 14.5Z" fill="#F0C04A"/>
-                        <path d="M17 18C17 18 15.5 20 15.5 21C15.5 21.8 16.2 22.5 17 22.5C17.8 22.5 18.5 21.8 18.5 21C18.5 20 17 18 17 18Z" fill="#F8D86A"/>
-                    </svg>
-                    <span class="footer-logo-text">HearthWarden</span>
-                </div>
-                <p class="footer-tagline">Your home. Your data. Your guardian.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Product</h4>
-                <ul class="footer-links">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#how">How It Works</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul class="footer-links">
-                    <li><a href="#waitlist">Get Started</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Connect</h4>
-                <div class="footer-socials">
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7a10.6 10.6 0 01-10-10.5z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
-                            <circle cx="4" cy="4" r="2"/>
-                        </svg>
-                    </a>
-                    <a href="mailto:sam@hearth-warden.com" class="social-link" aria-label="Email">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="4" width="20" height="16" rx="2"/>
-                            <path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p class="footer-copyright">&copy; 2026 Warden Systems LLC. All rights reserved.</p>
-            <p class="footer-location">Ridgefield, WA</p>
-        </div>
-    </footer>
+<!-- MULTIPLAYER MYSTERY -->
+<section class="multiplayer" id="multiplayer">
+  <div class="section-label">Multiplayer Mystery</div>
+  <h2 class="section-title">Nobody plays alone. Nobody knows who's real.</h2>
+  <p class="section-subtitle">Thornhaven is a federated world — your assistant runs independently, but your Familiars walk through a shared town alongside other real households and hundreds of AI characters.</p>
+  <div class="multiplayer-grid">
+    <div class="mp-card">
+      <h3>Your Assistant, First</h3>
+      <p>HearthWarden is your personal AI before it's anything else. Meal plans, budget tracking, daily briefings — all of that works perfectly without ever connecting to the multiplayer world. The game is an opt-in layer on top of a fully functional assistant.</p>
+    </div>
+    <div class="mp-card">
+      <h3>Familiars in the Wild</h3>
+      <p>When you connect to Thornhaven, your Familiars go out. Wizard visits the market. Ember stops by the bakery. Pocket spends hours in the town archive. They interact with NPCs and other households' Familiars — and they come home with stories.</p>
+    </div>
+    <div class="mp-card">
+      <h3>The Anonymity Is the Game</h3>
+      <p>You can't tell which characters in town belong to real households and which are AI. Everyone speaks in the same voice. Everyone has the same depth of personality. The mystery of who's real is part of the mystery of the town itself.</p>
+    </div>
+    <div class="mp-card">
+      <h3>Solve It Together</h3>
+      <p>No single household has all the clues. The sealed cellar under the hardware store? Your Pocket found the original deed — but someone else's Familiar overheard a conversation at the tavern. The mysteries require cooperation. Or competition. Your call.</p>
+    </div>
+    <div class="mp-card">
+      <h3>Town Votes Shape the World</h3>
+      <p>When the town faces a decision, every connected household gets a vote. Should the old cemetery be excavated? Should outsiders be allowed past the eastern ward? These aren't cosmetic — the outcome changes the shared story for everyone.</p>
+    </div>
+    <div class="mp-card">
+      <h3>Your Data Stays Yours</h3>
+      <p>Your personal data — finances, calendar, health, everything your assistant manages — never leaves your machine. Only your Familiars' in-world actions are shared. The town sees Wizard visit the market. It never sees your bank balance.</p>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Navigation scroll effect
-        const nav = document.getElementById('nav');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('nav-links');
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title">Choose how deep you go.</h2>
+  <p class="section-subtitle">A personal AI assistant, a meal planner, a budget tracker, a fitness coach, and an interactive fiction engine — all in one. Separately, these tools cost $130+/month. HearthWarden starts at $30.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <h3>HearthWarden</h3>
+      <div class="price-amount">$30</div>
+      <div class="price-period">per month</div>
+      <hr class="price-divider">
+      <ul class="price-features">
+        <li>Full personal AI assistant</li>
+        <li>Daily morning briefings</li>
+        <li>Calendar &amp; email management</li>
+        <li>Meal planning &amp; grocery lists</li>
+        <li>Budget tracking &amp; bill alerts</li>
+        <li>Health &amp; fitness logging</li>
+        <li>All 5 Familiars (assistant mode)</li>
+        <li>Full data sovereignty — your data never leaves your machine</li>
+      </ul>
+      <a href="#cta" class="btn-primary">Get Started</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">Full Experience</div>
+      <h3>Thornhaven</h3>
+      <div class="price-amount">$50</div>
+      <div class="price-period">per month</div>
+      <hr class="price-divider">
+      <ul class="price-features">
+        <li>Everything in HearthWarden</li>
+        <li>Your house in the shared world</li>
+        <li>5 Familiars in the living town</li>
+        <li>Full story access &amp; mystery arcs</li>
+        <li>The Daily Thornhaven Gazette</li>
+        <li>Town votes &amp; collective decisions</li>
+        <li>Photo quests &amp; real-world discovery</li>
+        <li>Organic NPC relationships</li>
+      </ul>
+      <a href="#cta" class="btn-primary">Enter Thornhaven</a>
+    </div>
+    <div class="price-card">
+      <div class="price-badge" style="background: var(--emerald);">Limited to 50</div>
+      <h3>Founding Household</h3>
+      <div class="price-amount">$75</div>
+      <div class="price-period">per month</div>
+      <hr class="price-divider">
+      <ul class="price-features">
+        <li>Everything in Thornhaven</li>
+        <li>Early access to new story arcs</li>
+        <li>Custom Familiar evolution paths</li>
+        <li>Priority story events &amp; encounters</li>
+        <li>Founding Household badge</li>
+        <li>Direct input on world development</li>
+        <li>Name preserved in town lore forever</li>
+      </ul>
+      <a href="#cta" class="btn-primary">Claim Your Spot</a>
+      <p class="price-note">Only 50 founding households. Once they're gone, they're gone.</p>
+    </div>
+  </div>
+</section>
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
+<!-- CTA -->
+<section class="cta" id="cta">
+  <h2>Your house is <em>waiting.</em></h2>
+  <p>Thornhaven is a living town where your AI assistant doubles as your guide to a persistent, multiplayer mystery. The founding households are building something that's never existed before. Join them.</p>
+  <form id="waitlist-form" style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; max-width: 500px; margin: 0 auto;">
+    <input type="email" id="waitlist-email" placeholder="your@email.com" required style="
+      flex: 1; min-width: 220px; padding: 0.9rem 1.2rem; border-radius: 4px;
+      border: 2px solid rgba(174,134,71,0.3); background: var(--forest-green);
+      color: var(--cream); font-size: 1rem; font-family: var(--font-sans);
+      outline: none; transition: border-color 0.2s;
+    " onfocus="this.style.borderColor='var(--amber-gold)'" onblur="this.style.borderColor='rgba(174,134,71,0.3)'">
+    <button type="submit" class="btn-primary" style="border: none; cursor: pointer; font-family: var(--font-sans);">Join the Waitlist</button>
+  </form>
+  <p id="waitlist-thanks" style="display: none; color: var(--emerald); font-weight: 600; margin-top: 1rem;">You're on the list. Thornhaven will find you.</p>
+</section>
 
-        // Hamburger menu toggle
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
+<!-- FOOTER -->
+<footer>
+  <p class="footer-tagline">HearthWarden &mdash; Welcome to Thornhaven</p>
+  <p style="margin-top: 0.5rem;">Warden Systems LLC &bull; Clark County, WA</p>
+  <p style="margin-top: 0.5rem; opacity: 0.6;">&copy; 2026 Warden Systems LLC. All rights reserved.</p>
+</footer>
 
-        // Close menu when clicking a link
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
-        });
+<script>
+// Waitlist form
+document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('waitlist-thanks').style.display = 'block';
+});
 
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#waitlist' && href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
-        });
-
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = getComputedStyle(entry.target).animation;
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Observe animatable elements
-        document.querySelectorAll('.stat-card, .feature-card, .step, .pricing-card, .comparison-column').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Testimonial carousel
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.testimonial-slide');
-        const dots = document.querySelectorAll('.dot');
-
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-
-            slides[n].classList.add('active');
-            dots[n].classList.add('active');
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
-
-        // Auto-rotate carousel every 5 seconds
-        setInterval(nextSlide, 5000);
-
-        // Dot click handlers
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
-                showSlide(currentSlide);
-            });
-        });
-
-        // Waitlist form handler
-        function handleWaitlist(e) {
-            e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-
-            // Create a mailto link
-            const subject = encodeURIComponent('HearthWarden Waitlist Signup');
-            const body = encodeURIComponent(`I'd like to join the HearthWarden waitlist.\n\nEmail: ${email}`);
-            window.location.href = `mailto:sam@hearth-warden.com?subject=${subject}&body=${body}`;
-
-            // Reset form
-            setTimeout(() => {
-                e.target.reset();
-            }, 100);
-        }
-
-        // Hero video alternation — swap between two animations each loop
-        const heroVideo = document.getElementById('heroVideo');
-        if (heroVideo) {
-            const videoSources = [
-                'website-assets/hearthwarden-hero-animation.mp4',
-                'website-assets/hearthwarden-hero-animation-2.mp4'
-            ];
-            let currentVideo = 0;
-
-            heroVideo.addEventListener('ended', () => {
-                currentVideo = (currentVideo + 1) % videoSources.length;
-                heroVideo.src = videoSources[currentVideo];
-                heroVideo.play();
-            });
-
-            // Remove loop attribute so 'ended' fires, then start
-            heroVideo.removeAttribute('loop');
-        }
-
-        // Respect prefers-reduced-motion
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) {
-            document.documentElement.style.scrollBehavior = 'auto';
-        }
-    </script>
+// Close mobile nav on link click
+document.querySelectorAll('.nav-links a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.remove('open');
+    document.querySelector('.hamburger').classList.remove('active');
+  });
+});
+</script>
 </body>
 </html>
