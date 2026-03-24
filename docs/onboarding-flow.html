@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding Flow � HearthWarden</title>
+<link rel="icon" type="image/png" href="../website-assets/logo-40.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+  :root { --dark-base: #1B1711; --bark-brown: #6C5C3C; --amber-gold: #AE8647; --forest-green: #3B4326; --sage-green: #899467; --stone-gray: #3A3631; --cream: #CDC693; --light-cream: #F5F0E6; --emerald: #72AC63; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--stone-gray); background: var(--light-cream); line-height: 1.7; }
+  .doc-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+  .doc-header { background: var(--forest-green); color: var(--cream); padding: 2rem; text-align: center; border-bottom: 3px solid var(--amber-gold); }
+  .doc-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; }
+  .doc-header a { color: var(--amber-gold); text-decoration: none; }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 800; margin: 2rem 0 0.5rem; color: var(--stone-gray); }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; border-bottom: 2px solid var(--amber-gold); padding-bottom: 0.3rem; }
+  h3 { font-size: 1.2rem; color: var(--bark-brown); }
+  p { margin: 0.5rem 0; }
+  em { font-style: italic; color: var(--bark-brown); }
+  strong { font-weight: 700; }
+  hr { border: none; height: 2px; background: var(--amber-gold); margin: 2rem 0; opacity: 0.3; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  th { background: var(--forest-green); color: var(--cream); padding: 0.6rem; text-align: left; font-weight: 600; }
+  td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(108,92,60,0.15); }
+  tr:hover td { background: rgba(174,134,71,0.05); }
+  a { color: var(--amber-gold); }
+  blockquote { background: var(--forest-green); color: var(--cream); padding: 1rem 1.5rem; border-left: 4px solid var(--amber-gold); border-radius: 0 8px 8px 0; margin: 1rem 0; font-style: italic; }
+  .back-link { display: inline-block; margin: 1rem 0; color: var(--amber-gold); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="doc-header">
+  <a href="../">HearthWarden</a>
+  <h1>Onboarding Flow</h1>
+</div>
+<div class="doc-container">
+  <a href="../" class="back-link">&larr; Back to hearth-warden.com</a>
+  <h1>HearthWarden Onboarding Flow — Order of Operations</h1>
+
+<em>How a new household goes from signup to fully operational with Familiars in Thornhaven.</em>
+
+<hr>
+
+<h2>Philosophy</h2>
+
+<p>The onboarding doesn't feel like setup. It feels like moving into a new home and meeting the people who live there. Your Familiars are the ones who interview you — each one asks about their domain, in their voice, with their personality. By the end, HearthWarden knows your household and your Familiars already feel like yours.</p>
+
+<strong>No forms. No spreadsheets. Just conversations with characters who care about the answers.</strong>
+
+<hr>
+
+<h2>Full Flow (Estimated: 45-60 minutes across first session + first week)</h2>
+
+<h3>Phase 0: Signup (5 minutes — website)</h3>
+
+<p>1. User visits hearth-warden.com</p>
+<p>2. Clicks "Enter Thornhaven" → redirected to signup</p>
+<p>3. Creates account: email, password, household name</p>
+<p>4. Selects subscription: HearthWarden ($30), Thornhaven ($50), Founding ($75)</p>
+<p>5. Payment via Stripe</p>
+<p>6. Receives confirmation: "Download the Thornhaven app"</p>
+
+<strong>Tier-specific:</strong>
+<p>- Hosted: Done. Everything happens in the app from here.</p>
+<p>- Connected: Also prompted to install Thornhaven Agent (`pip install thornhaven-agent`)</p>
+<p>- Self-Hosted: Also prompted to clone HearthWarden repo and run installer</p>
+
+<hr>
+
+<h3>Phase 1: Create Your Familiars (10-15 minutes — app)</h3>
+
+<p>This is the first thing that happens when the user opens the app and logs in.</p>
+
+<p>#### Step 1.1: Hearth Warden Introduction</p>
+
+<p>The app opens to a dark screen. A warm glow appears.</p>
+
+<blockquote>
+<em>A presence fills the room. Not threatening — measuring. Warm. Old.</em><br>
+<br>
+<p>"I am your Hearth Warden. I come with this home. I have always been here, waiting for a household to protect. You don't choose me. I chose you."<br></p>
+<br>
+<p>"Now — let's build your team."<br></p>
+</blockquote>
+
+<strong>Purpose:</strong> Establishes that the Hearth Warden is automatic. It sets the tone: this is a living world, not an app onboarding.
+
+<p>#### Step 1.2: Choose Your Four Familiars</p>
+
+<p>Four domain roles, one at a time. For each role:</p>
+
+<p>1. <strong>The Hearth Warden introduces the role:</strong></p>
+<blockquote>
+<p>"Your household needs someone who handles [domain]. Who will it be?"<br></p>
+</blockquote>
+
+<p>2. <strong>10 randomized options appear</strong> (from the 800-option pool). Mix of animals, people, magical beings, and enchanted objects. Each shows species + default personality.</p>
+
+<p>3. <strong>User selects one.</strong> The selection highlights.</p>
+
+<p>4. <strong>User names their Familiar.</strong> Free text input.</p>
+
+<p>5. <strong>Brief personality confirmation.</strong> User can tweak the personality description or keep the default.</p>
+
+<p>6. <strong>The Familiar "awakens":</strong></p>
+<blockquote>
+<em>[Name] opens their eyes. They look around the room. They look at you.</em><br>
+<p>"[In-character greeting based on species and personality]"<br></p>
+</blockquote>
+
+<p>Repeat for all four domains: Daily Driver, Kitchen, Grounds, Archive.</p>
+
+<strong>What this creates:</strong>
+<p>- 4 custom Familiars with names, species, personalities</p>
+<p>- 1 automatic Hearth Warden</p>
+<p>- Total: 5 Familiars per household</p>
+
+<hr>
+
+<h3>Phase 2: The Familiar Interviews (20-30 minutes — app)</h3>
+
+<strong>This is the core innovation.</strong> Each Familiar interviews the user about their domain. The interviews happen in the chat interface — the same UI they'll use every day. It feels like talking to the Familiar, not filling out a form.
+
+<p>The order is deliberate: start with the easiest, most fun domain and build toward the more personal ones.</p>
+
+<p>#### Interview 1: Kitchen Familiar (5-7 minutes)</p>
+
+<p>The kitchen Familiar leads the first interview because food is universal, non-threatening, and fun.</p>
+
+<strong>What they ask (in character):</strong>
+<p>- "How many people eat at your house? Anyone have dietary restrictions I should know about?"</p>
+<p>- "What's your cooking vibe — love it, tolerate it, or does the microwave do most of the work?"</p>
+<p>- "Any foods you absolutely hate? I won't judge. Okay, I'll judge a little."</p>
+<p>- "What are your go-to meals when you're too tired to think?"</p>
+<p>- "Where do you usually shop for groceries? Multiple stores or one stop?"</p>
+<p>- "Do you meal plan now, or is every dinner a surprise?"</p>
+<p>- "Any favorite cuisines? Comfort foods? Guilty pleasures?"</p>
+<p>- "Budget for groceries per week — rough is fine."</p>
+
+<strong>What this populates:</strong>
+<p>- Dietary preferences, restrictions, allergies</p>
+<p>- Household size (for meals)</p>
+<p>- Cooking skill/interest level</p>
+<p>- Grocery stores and shopping habits</p>
+<p>- Meal planning baseline</p>
+<p>- Food budget</p>
+
+<strong>Tone:</strong> Warm, playful, food-obsessed. If the user picked a bear, the bear asks about honey preferences. If they picked an enchanted stove, it talks about preferred burner temperatures. Always in character.
+
+<p>#### Interview 2: Grounds Familiar (5-7 minutes)</p>
+
+<strong>What they ask:</strong>
+<p>- "Tell me about your yard. Big? Small? Nonexistent? Apartment balcony?"</p>
+<p>- "Any plants inside? Houseplants, herbs, anything green?"</p>
+<p>- "Do you have a garden or want one?"</p>
+<p>- "Any pets? Tell me everything — names, species, quirks, vet schedules."</p>
+<p>- "What's the outdoor situation — lawn to mow? Trees? Irrigation?"</p>
+<p>- "Any seasonal tasks you always forget about? Gutters? Winterizing?"</p>
+<p>- "How's the weather where you are most of the year?"</p>
+
+<strong>What this populates:</strong>
+<p>- Yard/outdoor profile</p>
+<p>- Plant inventory (houseplants, garden)</p>
+<p>- Pet profiles (names, species, care needs, vet info)</p>
+<p>- Seasonal maintenance calendar</p>
+<p>- Weather/climate baseline</p>
+
+<strong>Tone:</strong> Gentle, patient, notices small things. The hedgehog asks about root systems. The enchanted watering can asks about sun exposure. Always in character.
+
+<p>#### Interview 3: Archive Familiar (5-7 minutes)</p>
+
+<strong>What they ask:</strong>
+<p>- "What do you collect? Books? Records? Movies? Board games? Cards? Anything?"</p>
+<p>- "How organized are your collections? Scale of 1 to chaos."</p>
+<p>- "Do you track what you own? Or do you buy duplicates sometimes?"</p>
+<p>- "Any important documents you want me to keep track of — insurance, warranties, that kind of thing?"</p>
+<p>- "What are you reading/watching/playing right now?"</p>
+<p>- "Do you have a filing system or is the system 'a pile'?"</p>
+<p>- "Any media subscriptions I should know about?"</p>
+
+<strong>What this populates:</strong>
+<p>- Collections inventory (categories, rough sizes)</p>
+<p>- Media habits and subscriptions</p>
+<p>- Document management preferences</p>
+<p>- Current reading/watching/playing</p>
+<p>- Organization level baseline</p>
+
+<strong>Tone:</strong> Precise, slightly enthusiastic about catalogs, remembers everything the user says. The owl adjusts spectacles. The spider starts weaving connections. Always in character.
+
+<p>#### Interview 4: Daily Driver Familiar (7-10 minutes)</p>
+
+<p>This is the most substantive interview. It comes last because by now the user is comfortable with the conversation format and trusts the Familiars.</p>
+
+<strong>What they ask:</strong>
+<p>- "Walk me through a normal day. What time do you wake up? What's the first thing you do?"</p>
+<p>- "What does your work situation look like — office, remote, hybrid, shift work?"</p>
+<p>- "What's on your calendar this week? Any recurring appointments I should know about?"</p>
+<p>- "How do you want your morning briefing? Quick bullet points or a full download?"</p>
+<p>- "Let's talk money — not details yet, just vibes. Are you comfortable, tight, building, or digging out?"</p>
+<p>- "Any bills that stress you out? Things you forget to pay?"</p>
+<p>- "Do you use a budget now? Want to?"</p>
+<p>- "What are your big goals right now? Financial, personal, health, anything."</p>
+<p>- "How's your email situation — under control or drowning?"</p>
+<p>- "What's the one thing that would make your day-to-day easier if someone just handled it?"</p>
+
+<strong>What this populates:</strong>
+<p>- Daily routine / schedule</p>
+<p>- Work situation</p>
+<p>- Calendar integration needs</p>
+<p>- Briefing preferences</p>
+<p>- Financial overview (high-level)</p>
+<p>- Bill awareness</p>
+<p>- Budget baseline</p>
+<p>- Goals</p>
+<p>- Email management needs</p>
+<p>- Priority pain point</p>
+
+<strong>Tone:</strong> Sharp, efficient, but caring. The cat asks with dry wit. The raven asks in riddles that are actually insightful. The clockwork assistant is precisely empathetic. Always in character.
+
+<p>#### Interview 5: Hearth Warden Wrap-Up (3-5 minutes)</p>
+
+<p>The Hearth Warden closes the interview phase. This is more formal and sets up security.</p>
+
+<strong>What they ask:</strong>
+<p>- "Who else lives in this household? Names, ages, and whether they'll be using HearthWarden."</p>
+<p>- "For the members who'll join — any children? I'll set up appropriate protections."</p>
+<p>- "I need a security phrase — something only you would say. This protects your private data."</p>
+<p>- "What's the one thing you most want HearthWarden to handle for you?"</p>
+<p>- "I will protect this home. Is there anything else I should know?"</p>
+
+<strong>What this populates:</strong>
+<p>- Household member profiles (for family accounts)</p>
+<p>- Parental control needs</p>
+<p>- Security challenge question/answer</p>
+<p>- Priority focus area</p>
+<p>- Any special circumstances</p>
+
+<strong>Tone:</strong> Formal, protective, few words. Every question carries weight. The Hearth Warden doesn't chat. It establishes trust through gravity.
+
+<hr>
+
+<h3>Phase 3: Build Your World (5 minutes — app)</h3>
+
+<p>The 20 neighborhood questions that generate the household's magical geography in Thornhaven.</p>
+
+<strong>Who asks:</strong> The Daily Driver Familiar leads this, with commentary from Grounds ("What kind of trees?") and Archive ("Any historical buildings?").
+
+<strong>Questions cover:</strong>
+<p>- Physical geography (hilly? flat? near water?)</p>
+<p>- Landmarks and buildings</p>
+<p>- Neighborhood vibe</p>
+<p>- Local gathering spots</p>
+<p>- What grows nearby</p>
+<p>- What you hear at night</p>
+<p>- Legends or weird stories</p>
+
+<strong>What this creates:</strong>
+<p>- The household's position in Thornhaven's geography</p>
+<p>- Neighbor generation</p>
+<p>- Local landmark mapping</p>
+<p>- Daily route distances for Familiars</p>
+
+<hr>
+
+<h3>Phase 4: Welcome Home (2 minutes — app)</h3>
+
+<p>All five Familiars appear together for the first time. Each says something in character:</p>
+
+<blockquote>
+<strong>[Kitchen Familiar]:</strong> "I already have three recipe ideas based on what you told me. Tomorrow morning — breakfast plan. You're going to love it."<br>
+<br>
+<strong>[Grounds Familiar]:</strong> "I checked the yard. We have work to do. I'll start with the [plant/area they mentioned]."<br>
+<br>
+<strong>[Archive Familiar]:</strong> "I've started cataloging. You have more [books/games/records] than you think. I'll have a count by end of week."<br>
+<br>
+<strong>[Daily Driver]:</strong> "Your first briefing arrives tomorrow morning. I've already started watching your schedule. Get some sleep."<br>
+<br>
+<strong>Hearth Warden:</strong> "Your Familiars are settling in. Thornhaven is waiting. Your neighbors will reach out soon."<br>
+</blockquote>
+
+<strong>Then:</strong> "Enter Thornhaven" button. The 7-day onboarding season begins.
+
+<hr>
+
+<h3>Phase 5: The First Week (7 days — automatic)</h3>
+
+<p>The Familiars autonomously handle the rest of setup through natural conversation over the first week. This isn't a "setup phase" — it's the game beginning.</p>
+
+<table>
+<tr><th>Day</th><th>What Happens Behind the Scenes</th></tr>
+<tr><td><strong>Day 1</strong></td><td>Daily Driver delivers first morning briefing. Kitchen Familiar presents first meal plan. Neighbors in Thornhaven reach out to welcome you.</td></tr>
+<tr><td><strong>Day 2</strong></td><td>Familiars explore town and report back. Grounds Familiar starts plant/yard tracking. Archive begins cataloging what was mentioned.</td></tr>
+<tr><td><strong>Day 3</strong></td><td>Connections build in Thornhaven. Daily Driver asks follow-up financial questions (more specific now that trust is established).</td></tr>
+<tr><td><strong>Day 4</strong></td><td>Gazette starts. First town vote may open. Kitchen Familiar refines meal plan based on feedback.</td></tr>
+<tr><td><strong>Day 5</strong></td><td>Familiar power progression begins (if user has been engaging with assistant features). Budget tracking firms up.</td></tr>
+<tr><td><strong>Day 6</strong></td><td>Tension builds in the story. Familiars gather more detail through natural conversation. By now, all major data is populated.</td></tr>
+<tr><td><strong>Day 7</strong></td><td><strong>THE HOOK.</strong> Full household profile is complete. Story begins in earnest.</td></tr>
+</table>
+
+<strong>The key insight:</strong> By Day 7, HearthWarden has everything it needs — not because the user filled out forms, but because they had conversations with characters they created and care about. The data gathering was invisible. It felt like making friends.
+
+<hr>
+
+<h2>How This Differs by Tier</h2>
+
+<h3>Hosted</h3>
+<p>- All conversations happen through the Thornhaven server</p>
+<p>- Claude API processes the interviews on Sam's infrastructure</p>
+<p>- Data stored encrypted on server</p>
+<p>- User just uses the app — nothing else needed</p>
+
+<h3>Connected</h3>
+<p>- First session (Phase 1-4) happens through the server</p>
+<p>- Thornhaven Agent receives the interview data and syncs to local Claude</p>
+<p>- Subsequent conversations (Phase 5 onward) processed by user's own Claude</p>
+<p>- More responsive, lower latency for daily interactions</p>
+<p>- Server only handles Thornhaven game features</p>
+
+<h3>Self-Hosted</h3>
+<p>- Same first session through the app</p>
+<p>- Interview data populates local HearthWarden repositories:</p>
+<p>- Kitchen interview → `repositories/grocery.md`</p>
+<p>- Grounds interview → `repositories/pets.md` + `plants.db`</p>
+<p>- Archive interview → `repositories/inventory.md` + `inventory.db`</p>
+<p>- Daily Driver interview → `repositories/identity.md` + `repositories/finances.md` + `repositories/calendar.md`</p>
+<p>- Hearth Warden interview → `repositories/identity.md` (members) + security setup</p>
+<p>- All subsequent conversations processed locally</p>
+<p>- Maximum data sovereignty</p>
+
+<hr>
+
+<h2>Data Mapping: Interview → Repository</h2>
+
+<table>
+<tr><th>Interview Question Area</th><th>Where It Goes</th></tr>
+<tr><td>Dietary preferences</td><td>`meal_plans` table (server) or `repositories/grocery.md` (local)</td></tr>
+<tr><td>Cooking habits</td><td>Kitchen Familiar personality context</td></tr>
+<tr><td>Grocery stores</td><td>`repositories/grocery.md` → shopping optimization</td></tr>
+<tr><td>Meal budget</td><td>Budget categories → "grocery"</td></tr>
+<tr><td>Yard/garden</td><td>`plants.db` or `repositories/household.md`</td></tr>
+<tr><td>Houseplants</td><td>`plants.db` plant catalog</td></tr>
+<tr><td>Pets</td><td>`repositories/pets.md` or `repositories/animals.md`</td></tr>
+<tr><td>Seasonal tasks</td><td>`repositories/calendar.md` → recurring events</td></tr>
+<tr><td>Collections</td><td>`inventory.db` → item catalog</td></tr>
+<tr><td>Subscriptions</td><td>`budget_snapshots` or `repositories/finances.md` → subscriptions</td></tr>
+<tr><td>Documents</td><td>Archive Familiar context</td></tr>
+<tr><td>Daily routine</td><td>`repositories/calendar.md`</td></tr>
+<tr><td>Work situation</td><td>`repositories/identity.md`</td></tr>
+<tr><td>Financial overview</td><td>`budget_snapshots` or `repositories/finances.md`</td></tr>
+<tr><td>Bills</td><td>`budget_snapshots` → bills list</td></tr>
+<tr><td>Goals</td><td>`inventory.db` → goals table</td></tr>
+<tr><td>Email preferences</td><td>Daily Driver configuration</td></tr>
+<tr><td>Household members</td><td>`household_members` table (server) or `repositories/identity.md` (local)</td></tr>
+<tr><td>Security challenge</td><td>CLAUDE.md (local) or server auth</td></tr>
+<tr><td>Neighborhood answers</td><td>`households.neighborhood_seed` (server)</td></tr>
+</table>
+
+<hr>
+
+<h2>Why This Order Works</h2>
+
+<p>1. <strong>Create Familiars first</strong> — The user needs to care about the characters before they'll answer personal questions honestly</p>
+<p>2. <strong>Kitchen first</strong> — Food is universal, fun, and low-stakes. It warms up the conversation.</p>
+<p>3. <strong>Grounds second</strong> — Pets and plants are personal but not financial. Builds trust.</p>
+<p>4. <strong>Archive third</strong> — Collections and media are mildly personal. Shows the Familiar's competence.</p>
+<p>5. <strong>Daily Driver last</strong> — Financial and scheduling data is the most sensitive. By now, trust is established.</p>
+<p>6. <strong>Hearth Warden closes</strong> — Security and household members are formal. The Warden's gravity makes this feel appropriate, not invasive.</p>
+<p>7. <strong>Build World after interviews</strong> — The 20 questions are fun and imaginative. They're a palate cleanser after the personal interviews.</p>
+<p>8. <strong>Welcome Home</strong> — Emotional payoff. The Familiars show they were listening. The user feels known.</p>
+<p>9. <strong>7-day season</strong> — The rest happens naturally through daily interaction, not setup.</p>
+
+<hr>
+
+<h2>Optimization Notes</h2>
+
+<strong>Session length:</strong> The full Phase 1-4 should take 35-45 minutes. This is comparable to setting up a new phone — but more engaging because it's a conversation, not a settings menu.
+
+<strong>Dropout risk:</strong> The highest dropout risk is between Phase 0 (signup) and Phase 1 (app open). The app needs to open directly into the Hearth Warden introduction — no splash screens, no tutorial overlays, no "enable notifications" popup. Straight into the story.
+
+<strong>Data completeness:</strong> Not every question needs an answer. Familiars should accept "skip" or "I'll tell you later" gracefully:
+<blockquote>
+<p>"No worries — I'll figure it out as we go. Just tell me when you're ready."<br></p>
+</blockquote>
+
+<p>The 7-day season fills in gaps naturally. By Day 7, even a user who skipped half the interview will have a complete profile from conversational context.</p>
+
+<strong>Re-interview:</strong> At any point after setup, a user can say "Hey [Familiar], let me update you on [topic]" and the Familiar will re-interview that specific area. Data is always live, never frozen from the initial setup.
+
+  <hr>
+  <p style="text-align: center; color: var(--bark-brown); margin: 2rem 0;">
+    <strong>Warden Systems LLC</strong> &mdash; Clark County, WA<br>
+    <a href="mailto:sam@hearth-warden.com">sam@hearth-warden.com</a> &mdash; <a href="../">hearth-warden.com</a>
+  </p>
+</div>
+</body>
+</html>
